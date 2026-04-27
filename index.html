@@ -3,118 +3,234 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nord-Lock Group — AI Demo</title>
+<title>Carola Compá — AI Projects</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
+
   body {
     font-family: 'Segoe UI', Arial, sans-serif;
-    background: #1a1f2e;
+    background: #13161f;
+    color: #c8d4e0;
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
   }
-  .wrap { max-width: 680px; width: 100%; text-align: center; }
 
-  .logo-mark {
-    width: 56px; height: 56px; background: #e8371e;
+  /* ── Nav ── */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 2.5rem;
+    border-bottom: 1px solid #1e2535;
+  }
+  .nav-brand { display: flex; align-items: center; gap: 12px; }
+  .cc-mark {
+    width: 36px; height: 36px; background: #4f6ef7;
     border-radius: 8px; display: flex; align-items: center; justify-content: center;
-    font-weight: 900; color: white; font-size: 18px; letter-spacing: -1px;
-    margin: 0 auto 1.5rem;
+    font-weight: 900; color: white; font-size: 13px; letter-spacing: -0.5px;
   }
-  h1 { color: white; font-size: 1.6rem; font-weight: 700; margin-bottom: 0.5rem; }
-  .sub {
-    color: #8899aa; font-size: 0.95rem; margin-bottom: 0.75rem; line-height: 1.6;
+  .nav-name { color: white; font-weight: 700; font-size: 1rem; }
+  .nav-title { color: #5a6a82; font-size: 0.8rem; }
+  .nav-contact {
+    color: #8899aa; font-size: 0.82rem; text-decoration: none;
+    border: 1px solid #2e3650; border-radius: 20px; padding: 5px 14px;
+    transition: border-color 0.2s, color 0.2s;
   }
-  .author-note {
-    display: inline-block;
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.12);
-    color: #aabbcc;
-    font-size: 0.8rem;
-    padding: 6px 16px;
-    border-radius: 20px;
-    margin-bottom: 3rem;
+  .nav-contact:hover { border-color: #4f6ef7; color: #a0b0ff; }
+
+  /* ── Hero ── */
+  .hero {
+    max-width: 760px; margin: 5rem auto 4rem;
+    padding: 0 2rem; text-align: center;
+  }
+  .hero h1 {
+    color: white; font-size: 2rem; font-weight: 800;
+    line-height: 1.2; margin-bottom: 1rem;
+  }
+  .hero h1 span { color: #4f6ef7; }
+  .hero p {
+    color: #7a8fa8; font-size: 1rem; line-height: 1.7; max-width: 520px; margin: 0 auto;
   }
 
-  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
-
-  .tool-card {
-    background: #242a3a;
-    border: 1px solid #2e3650;
-    border-radius: 12px;
-    padding: 1.75rem 1.5rem;
-    text-decoration: none;
-    color: inherit;
-    transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
-    display: block;
-    text-align: left;
+  /* ── Projects ── */
+  .projects-section {
+    max-width: 900px; margin: 0 auto 6rem;
+    padding: 0 2rem;
   }
-  .tool-card:hover {
-    border-color: #e8371e;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  .section-label {
+    font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: #4a5a72;
+    margin-bottom: 1.5rem; display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px; background: #1e2535;
   }
 
-  .tool-icon {
-    width: 40px; height: 40px; border-radius: 8px;
+  /* ── Project card ── */
+  .project-card {
+    background: #1a1f2e;
+    border: 1px solid #252c40;
+    border-radius: 14px;
+    padding: 2rem;
+    margin-bottom: 1.25rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .project-card:hover {
+    border-color: #3a4a6a;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+  }
+
+  .project-top {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .project-icon-wrap { display: flex; align-items: center; gap: 14px; }
+  .project-icon {
+    width: 44px; height: 44px; border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.2rem; margin-bottom: 1rem;
+    font-size: 1.25rem; flex-shrink: 0;
   }
-  .icon-sales { background: #1a3a6a; }
-  .icon-tracker { background: #2a1a5a; }
+  .icon-nl { background: #1a2a4a; }
+  .project-name { color: white; font-size: 1.1rem; font-weight: 700; }
+  .project-org { color: #5a6a82; font-size: 0.8rem; margin-top: 2px; }
 
-  .tool-label {
+  .project-badge {
     font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.8px; color: #e8371e; margin-bottom: 6px;
+    letter-spacing: 0.6px; padding: 4px 10px; border-radius: 20px;
+    white-space: nowrap;
   }
-  .tool-title { color: white; font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
-  .tool-desc { color: #8899aa; font-size: 0.82rem; line-height: 1.6; }
+  .badge-live { background: #0d2a1a; color: #4ade80; border: 1px solid #166534; }
+  .badge-soon { background: #1a1f2e; color: #4a5568; border: 1px solid #2e3650; }
 
-  .arrow {
-    display: inline-block; margin-top: 1rem;
-    color: #e8371e; font-size: 0.8rem; font-weight: 700;
-  }
-
-  .footer {
-    margin-top: 3rem;
-    color: #4a5568;
-    font-size: 0.75rem;
+  .project-desc {
+    color: #7a8fa8; font-size: 0.88rem; line-height: 1.7;
+    margin-bottom: 1.5rem; max-width: 600px;
   }
 
-  @media (max-width: 520px) {
-    .cards { grid-template-columns: 1fr; }
-    h1 { font-size: 1.25rem; }
+  /* ── Tool sub-links ── */
+  .tool-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .tool-link {
+    display: flex; align-items: center; gap: 8px;
+    background: #242a3a; border: 1px solid #2e3650;
+    border-radius: 8px; padding: 0.65rem 1rem;
+    text-decoration: none; color: #c8d4e0;
+    font-size: 0.82rem; font-weight: 600;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .tool-link:hover { border-color: #4f6ef7; background: #1e2840; color: white; }
+  .tool-link-icon {
+    width: 24px; height: 24px; border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+  }
+  .tl-sales { background: #1a3a6a; }
+  .tl-tracker { background: #2a1a5a; }
+  .tool-link-arrow { color: #4f6ef7; margin-left: 4px; }
+
+  /* ── Coming soon card ── */
+  .coming-soon {
+    background: repeating-linear-gradient(
+      -45deg,
+      #13161f,
+      #13161f 10px,
+      #161922 10px,
+      #161922 20px
+    );
+    border: 1px dashed #252c40;
+    border-radius: 14px;
+    padding: 2rem;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100px; color: #3a4a5a;
+    font-size: 0.85rem; font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid #1e2535;
+    padding: 2rem 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-left { color: #3a4a5a; font-size: 0.78rem; }
+  .footer-links { display: flex; gap: 1.25rem; }
+  .footer-links a {
+    color: #4a5a72; font-size: 0.78rem; text-decoration: none;
+    transition: color 0.15s;
+  }
+  .footer-links a:hover { color: #a0b0ff; }
+
+  @media (max-width: 580px) {
+    .hero h1 { font-size: 1.5rem; }
+    nav { padding: 1.25rem 1.25rem; }
+    .projects-section { padding: 0 1.25rem; }
+    .hero { padding: 0 1.25rem; margin: 3rem auto 3rem; }
+    .project-top { flex-direction: column; }
   }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="logo-mark">NL</div>
-  <h1>Nord-Lock Group — AI Prototypes</h1>
-  <p class="sub">Two working AI tools built to demonstrate how AI can support<br>Nord-Lock's sales team and internal AI adoption programme.</p>
-  <span class="author-note">Built by Carola Compá · April 2026</span>
 
-  <div class="cards">
-    <a class="tool-card" href="nordlock-sales-assistant.html">
-      <div class="tool-icon icon-sales">🔩</div>
-      <div class="tool-label">External · Sales</div>
-      <div class="tool-title">Bolting Solutions Advisor</div>
-      <div class="tool-desc">Describe a customer's application and challenge — get an AI-powered product recommendation with technical reasoning.</div>
-      <div class="arrow">Open tool →</div>
-    </a>
+<nav>
+  <div class="nav-brand">
+    <div class="cc-mark">CC</div>
+    <div>
+      <div class="nav-name">Carola Compá</div>
+      <div class="nav-title">AI Projects</div>
+    </div>
+  </div>
+  <a class="nav-contact" href="mailto:carolacompa@gmail.com">Get in touch</a>
+</nav>
 
-    <a class="tool-card" href="nordlock-ai-tracker.html">
-      <div class="tool-icon icon-tracker">✦</div>
-      <div class="tool-label">Internal · AI Programme</div>
-      <div class="tool-title">AI Initiative Tracker</div>
-      <div class="tool-desc">A Kanban board for tracking AI experiments across the organisation, with a built-in AI scoping assistant for each idea.</div>
-      <div class="arrow">Open tool →</div>
-    </a>
+<div class="hero">
+  <h1>AI tools that <span>actually work</span></h1>
+  <p>I build working AI prototypes to explore how artificial intelligence can solve real business problems — from governance and adoption to sales and operations.</p>
+</div>
+
+<div class="projects-section">
+
+  <div class="section-label">Projects</div>
+
+  <!-- Nord-Lock Project Card -->
+  <div class="project-card">
+    <div class="project-top">
+      <div class="project-icon-wrap">
+        <div class="project-icon icon-nl">🔩</div>
+        <div>
+          <div class="project-name">Nord-Lock Group AI Prototypes</div>
+          <div class="project-org">Industrial / Bolting Solutions · April 2026</div>
+        </div>
+      </div>
+      <span class="project-badge badge-live">● Live</span>
+    </div>
+    <p class="project-desc">
+      Two working AI tools built to demonstrate how AI can support Nord-Lock's sales team and internal AI adoption programme — from customer-facing product recommendations to organisation-wide initiative governance.
+    </p>
+    <div class="tool-links">
+      <a class="tool-link" href="nordlock-sales-assistant.html">
+        <div class="tool-link-icon tl-sales">🔩</div>
+        Bolting Solutions Advisor
+        <span class="tool-link-arrow">→</span>
+      </a>
+      <a class="tool-link" href="nordlock-ai-tracker.html">
+        <div class="tool-link-icon tl-tracker">✦</div>
+        AI Initiative Tracker
+        <span class="tool-link-arrow">→</span>
+      </a>
+    </div>
   </div>
 
-  <p class="footer">Prototype — built for demonstration purposes · Nord-Lock Group AI Lead application</p>
+  <!-- Placeholder -->
+  <div class="coming-soon">More projects coming soon</div>
+
 </div>
+
+<footer>
+  <div class="footer-left">carolacompa.dev · Built with Claude API</div>
+  <div class="footer-links">
+    <a href="mailto:carolacompa@gmail.com">Email</a>
+    <a href="https://linkedin.com/in/carolacompa" target="_blank">LinkedIn</a>
+  </div>
+</footer>
+
 </body>
 </html>
