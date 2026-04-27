@@ -67,23 +67,6 @@
   }
   .btn-primary:hover { background: #c22d17; }
 
-  .api-mini {
-    display: flex; align-items: center; gap: 6px;
-  }
-  .api-mini input {
-    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 4px; padding: 0.4rem 0.6rem; color: white;
-    font-size: 0.75rem; font-family: monospace; width: 200px;
-  }
-  .api-mini input::placeholder { color: #8899aa; }
-  .api-mini input:focus { outline: 1px solid var(--nl-accent); }
-  .api-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: #ef4444; flex-shrink: 0;
-    transition: background 0.2s;
-  }
-  .api-dot.ok { background: #22c55e; }
-
   /* Stats bar */
   .stats-bar {
     background: white;
@@ -488,8 +471,6 @@
     </div>
   </div>
   <div class="header-right">
-    <input type="password" id="apiKey" placeholder="Anthropic API key…" oninput="saveKey(this.value)" />
-    </div>
     <button class="btn-primary" onclick="openNewModal()">
       + New Initiative
     </button>
@@ -692,12 +673,7 @@ function uid() { return Date.now().toString(36) + Math.random().toString(36).sli
 function save() { localStorage.setItem('nl_initiatives', JSON.stringify(initiatives)); }
 function byId(id) { return initiatives.find(i => i.id === id); }
 
-// ─── API Key ──────────────────────────────────────────────────────────────────
-window.addEventListener('load', () => {
-  const saved = localStorage.getItem('nl_api_key');
-  if (saved) { document.getElementById('apiKey').value = saved; updateDot(saved); }
-  render();
-});
+window.addEventListener('load', () => { render(); });
 
 
 
