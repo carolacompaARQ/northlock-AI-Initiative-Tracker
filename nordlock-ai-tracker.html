@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nord-Lock Group — AI Initiative Tracker</title>
+<style>
+  :root {
+    --nl-dark: #1a1f2e;
+    --nl-blue: #003d7a;
+    --nl-accent: #e8371e;
+    --nl-light-blue: #0060b8;
+    --nl-gray: #4a5568;
+    --nl-light: #f4f6fa;
+    --nl-border: #d1d9e6;
+    --nl-white: #ffffff;
+    --radius: 8px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+
+    --col-idea: #7c6fcd;
+    --col-approved: #0891b2;
+    --col-active: #0060b8;
+    --col-pilot: #d97706;
+    --col-measuring: #059669;
+    --col-done: #374151;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--nl-light);
+    color: var(--nl-dark);
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--nl-dark);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo-mark {
+    width: 38px; height: 38px; background: var(--nl-accent);
+    border-radius: 4px; display: flex; align-items: center; justify-content: center;
+    font-weight: 900; color: white; font-size: 13px; letter-spacing: -1px;
+  }
+  .logo-text { color: white; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+  .logo-sub { color: #8899aa; font-size: 10px; letter-spacing: 0.5px; }
+
+  .header-right { display: flex; align-items: center; gap: 12px; }
+
+  .btn-primary {
+    background: var(--nl-accent);
+    color: white; border: none; border-radius: 6px;
+    padding: 0.55rem 1.1rem; font-size: 0.85rem;
+    font-weight: 700; cursor: pointer; transition: background 0.15s;
+    letter-spacing: 0.3px; display: flex; align-items: center; gap: 6px;
+  }
+  .btn-primary:hover { background: #c22d17; }
+
+  .api-mini {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .api-mini input {
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 4px; padding: 0.4rem 0.6rem; color: white;
+    font-size: 0.75rem; font-family: monospace; width: 200px;
+  }
+  .api-mini input::placeholder { color: #8899aa; }
+  .api-mini input:focus { outline: 1px solid var(--nl-accent); }
+  .api-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #ef4444; flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .api-dot.ok { background: #22c55e; }
+
+  /* Stats bar */
+  .stats-bar {
+    background: white;
+    border-bottom: 1px solid var(--nl-border);
+    padding: 0.75rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    overflow-x: auto;
+  }
+
+  .stat {
+    display: flex; align-items: center; gap: 8px; white-space: nowrap;
+  }
+  .stat-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--nl-gray); }
+  .stat-count { font-size: 0.9rem; font-weight: 700; color: var(--nl-dark); }
+
+  .stats-divider { height: 24px; width: 1px; background: var(--nl-border); }
+
+  /* Board */
+  .board {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    overflow-x: auto;
+    min-height: calc(100vh - 160px);
+    align-items: flex-start;
+  }
+
+  .column {
+    flex: 0 0 280px;
+    background: #ebeef5;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 180px);
+  }
+
+  .column-header {
+    padding: 0.85rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: white;
+  }
+
+  .col-idea .column-header { background: var(--col-idea); }
+  .col-approved .column-header { background: var(--col-approved); }
+  .col-active .column-header { background: var(--col-active); }
+  .col-pilot .column-header { background: var(--col-pilot); }
+  .col-measuring .column-header { background: var(--col-measuring); }
+  .col-done .column-header { background: var(--col-done); }
+
+  .col-count {
+    background: rgba(255,255,255,0.25);
+    border-radius: 10px;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .column-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  /* Cards */
+  .initiative-card {
+    background: white;
+    border-radius: 8px;
+    padding: 0.9rem;
+    box-shadow: var(--shadow);
+    border: 1px solid transparent;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .initiative-card:hover {
+    border-color: var(--nl-light-blue);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  }
+
+  .card-dept {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--nl-light-blue);
+    margin-bottom: 4px;
+  }
+
+  .card-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--nl-dark);
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+
+  .card-desc {
+    font-size: 0.78rem;
+    color: var(--nl-gray);
+    line-height: 1.5;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-footer {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .card-meta {
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .tag {
+    font-size: 0.68rem;
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+
+  .tag-value-high { background: #dcfce7; color: #166534; }
+  .tag-value-mid { background: #fef9c3; color: #713f12; }
+  .tag-value-low { background: #f1f5f9; color: #475569; }
+  .tag-ai { background: #ede9fe; color: #5b21b6; }
+
+  .card-date {
+    font-size: 0.68rem;
+    color: #9ca3af;
+  }
+
+  /* Empty state */
+  .empty-col {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #a0aec0;
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: white;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 620px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+
+  .modal-header {
+    background: var(--nl-dark);
+    color: white;
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px 12px 0 0;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .modal-header h2 { font-size: 1rem; font-weight: 700; }
+
+  .modal-close {
+    background: none; border: none; color: #8899aa;
+    font-size: 1.4rem; cursor: pointer; line-height: 1;
+    transition: color 0.15s;
+  }
+  .modal-close:hover { color: white; }
+
+  .modal-body { padding: 1.5rem; }
+
+  .form-group { margin-bottom: 1rem; }
+
+  .form-group label {
+    display: block; font-size: 0.78rem; font-weight: 700;
+    color: var(--nl-gray); text-transform: uppercase;
+    letter-spacing: 0.4px; margin-bottom: 5px;
+  }
+
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; border: 1px solid var(--nl-border);
+    border-radius: 6px; padding: 0.6rem 0.85rem;
+    font-size: 0.9rem; color: var(--nl-dark);
+    font-family: inherit; transition: border-color 0.2s;
+  }
+
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: 2px solid var(--nl-light-blue); border-color: transparent;
+  }
+
+  .form-group textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .ai-section {
+    background: #f8f7ff;
+    border: 1px solid #ddd6fe;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+
+  .ai-section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+
+  .ai-section-header span {
+    font-size: 0.8rem; font-weight: 700; color: #5b21b6;
+    text-transform: uppercase; letter-spacing: 0.3px;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .btn-ai {
+    background: #7c6fcd; color: white; border: none;
+    border-radius: 6px; padding: 0.4rem 0.9rem;
+    font-size: 0.8rem; font-weight: 700; cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-ai:hover { background: #5b52aa; }
+  .btn-ai:disabled { background: #a5b4fc; cursor: not-allowed; }
+
+  .ai-output {
+    font-size: 0.83rem; color: #374151; line-height: 1.7;
+    white-space: pre-wrap; min-height: 60px;
+  }
+
+  .ai-mini-spinner {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border: 2px solid #ddd6fe;
+    border-top-color: #7c6fcd;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle; margin-right: 6px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--nl-border);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .btn-secondary {
+    background: none; border: 1px solid var(--nl-border);
+    border-radius: 6px; padding: 0.55rem 1.1rem;
+    font-size: 0.85rem; color: var(--nl-gray);
+    cursor: pointer; transition: background 0.15s;
+    font-weight: 600;
+  }
+  .btn-secondary:hover { background: var(--nl-light); }
+
+  .btn-save {
+    background: var(--nl-blue); color: white; border: none;
+    border-radius: 6px; padding: 0.55rem 1.3rem;
+    font-size: 0.85rem; font-weight: 700; cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-save:hover { background: #002d5a; }
+
+  /* Detail modal */
+  .detail-section { margin-bottom: 1.25rem; }
+  .detail-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: #9ca3af; margin-bottom: 4px; }
+  .detail-value { font-size: 0.9rem; color: var(--nl-dark); line-height: 1.6; }
+
+  .status-select {
+    border: 1px solid var(--nl-border); border-radius: 6px;
+    padding: 0.5rem 0.75rem; font-size: 0.85rem; font-weight: 600;
+    color: var(--nl-dark); background: white; cursor: pointer;
+    font-family: inherit;
+  }
+
+  .value-bar {
+    display: flex; gap: 6px;
+  }
+
+  .value-btn {
+    flex: 1; border: 1px solid var(--nl-border);
+    border-radius: 6px; padding: 0.4rem;
+    font-size: 0.75rem; font-weight: 700;
+    cursor: pointer; text-align: center;
+    background: white; transition: all 0.15s;
+  }
+
+  .value-btn.selected-high { background: #dcfce7; border-color: #16a34a; color: #166534; }
+  .value-btn.selected-mid { background: #fef9c3; border-color: #ca8a04; color: #713f12; }
+  .value-btn.selected-low { background: #f1f5f9; border-color: #94a3b8; color: #475569; }
+
+  .delete-btn {
+    background: none; border: none; color: #ef4444;
+    font-size: 0.8rem; cursor: pointer; font-weight: 600;
+    transition: color 0.15s; padding: 0;
+  }
+  .delete-btn:hover { color: #b91c1c; }
+
+  /* ── Section divider ── */
+  .form-section-title {
+    font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.8px; color: #9ca3af;
+    border-top: 1px solid var(--nl-border);
+    padding-top: 1rem; margin: 1rem 0 0.75rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .form-section-title::after {
+    content: ''; flex: 1; height: 1px; background: var(--nl-border);
+  }
+
+  /* ── Keyword/dept tag chips ── */
+  .tag-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 0.6rem; min-height: 0; }
+  .tag-chip { font-size: 0.72rem; padding: 3px 10px; border-radius: 10px; font-weight: 600; }
+  .tag-chip-kw   { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+  .tag-chip-dept { background: #fce7f3; color: #9d174d; border: 1px solid #fbcfe8; }
+
+  /* ── Per-item data rows ── */
+  .data-items-list { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.35rem; }
+  .data-item-row {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--nl-light); border: 1px solid var(--nl-border);
+    border-radius: 8px; padding: 0.5rem 0.6rem;
+  }
+  .data-item-row input[type="text"] {
+    flex: 1; border: none; background: transparent;
+    font-size: 0.85rem; color: var(--nl-dark); padding: 0;
+    font-family: inherit;
+  }
+  .data-item-row input[type="text"]:focus { outline: none; }
+  .dis-btns { display: flex; gap: 3px; flex-shrink: 0; }
+  .dis-btn {
+    border: 1px solid var(--nl-border); border-radius: 6px;
+    padding: 3px 8px; font-size: 0.72rem; font-weight: 700;
+    cursor: pointer; background: white; transition: all 0.12s; white-space: nowrap;
+    color: var(--nl-gray);
+  }
+  .dis-btn:hover { border-color: #94a3b8; }
+  .dis-btn.active-have    { background: #dcfce7; border-color: #16a34a; color: #166534; }
+  .dis-btn.active-partial { background: #fef9c3; border-color: #ca8a04; color: #713f12; }
+  .dis-btn.active-need    { background: #fee2e2; border-color: #dc2626; color: #991b1b; }
+  .data-item-remove {
+    background: none; border: none; color: #9ca3af; font-size: 1rem;
+    cursor: pointer; padding: 0 2px; line-height: 1; flex-shrink: 0;
+    transition: color 0.12s;
+  }
+  .data-item-remove:hover { color: #ef4444; }
+  .add-data-btn {
+    display: flex; align-items: center; gap: 5px;
+    background: none; border: 1px dashed var(--nl-border);
+    border-radius: 8px; padding: 0.45rem 0.85rem;
+    font-size: 0.8rem; font-weight: 600; color: var(--nl-gray);
+    cursor: pointer; transition: all 0.15s; margin-top: 0.35rem; width: 100%;
+    justify-content: center;
+  }
+  .add-data-btn:hover { border-color: var(--nl-light-blue); color: var(--nl-light-blue); background: #f0f4ff; }
+
+  /* ── Approved badge on card ── */
+  .tag-approved { background: #e0f7fa; color: #006064; }
+
+  /* ── Data readiness badge on card ── */
+  .tag-data-yes     { background: #dcfce7; color: #166534; }
+  .tag-data-partial { background: #fef9c3; color: #713f12; }
+  .tag-data-no      { background: #fee2e2; color: #991b1b; }
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">NL</div>
+    <div>
+      <div class="logo-text">Nord-Lock Group</div>
+      <div class="logo-sub">AI Initiative Tracker</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <input type="password" id="apiKey" placeholder="Anthropic API key…" oninput="saveKey(this.value)" />
+    </div>
+    <button class="btn-primary" onclick="openNewModal()">
+      + New Initiative
+    </button>
+  </div>
+</header>
+
+<!-- Stats bar -->
+<div class="stats-bar" id="statsBar">
+  <!-- filled by JS -->
+</div>
+
+<!-- Board -->
+<div class="board" id="board">
+  <!-- columns filled by JS -->
+</div>
+
+<!-- ─── NEW INITIATIVE MODAL ─── -->
+<div class="modal-overlay" id="newModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Submit AI Initiative Idea</h2>
+      <button class="modal-close" onclick="closeNewModalSafe()">×</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Basic info -->
+      <div class="form-group">
+        <label>Initiative title *</label>
+        <input type="text" id="new-title" placeholder="e.g. AI assistant for sales quoting" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Department *</label>
+          <select id="new-dept">
+            <option value="">Select…</option>
+            <option>Sales</option>
+            <option>Operations</option>
+            <option>Engineering / R&D</option>
+            <option>Finance</option>
+            <option>HR</option>
+            <option>Supply Chain</option>
+            <option>Marketing</option>
+            <option>IT</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Submitted by</label>
+          <input type="text" id="new-owner" placeholder="Your name" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>What is the problem to solve? *</label>
+        <textarea id="new-desc" placeholder="What takes too long? What errors occur? What task is manual and repetitive? What decision is hard to make without better information?"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>What is the expected outcome?</label>
+        <textarea id="new-outcome" placeholder="What does success look like? e.g. 'Sales team generates quotes 5× faster', 'Reduce invoice processing from 2 days to 2 hours', '40% fewer HR admin emails'…" style="min-height:65px"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Expected business value</label>
+        <div class="value-bar" id="valueBar">
+          <button class="value-btn" onclick="selectValue('high')" id="val-high">🟢 High</button>
+          <button class="value-btn" onclick="selectValue('mid')" id="val-mid">🟡 Medium</button>
+          <button class="value-btn" onclick="selectValue('low')" id="val-low">⚪ Low / Exploratory</button>
+        </div>
+      </div>
+
+      <!-- ── DATA section ── -->
+      <div class="form-section-title">Data needed for this project</div>
+
+      <div class="form-group">
+        <label>List the data this project requires — add one item per line</label>
+        <div class="data-items-list" id="dataItemsList"></div>
+        <button class="add-data-btn" onclick="addDataItem()">+ Add data item</button>
+      </div>
+
+      <!-- ── AI Scoping Assistant ── -->
+      <div class="ai-section">
+        <div class="ai-section-header">
+          <span>✦ AI Scoping Assistant</span>
+          <button class="btn-ai" id="scopeBtn" onclick="scopeIdea()">Scope this idea →</button>
+        </div>
+        <div class="ai-output" id="aiOutput">
+          Fill in the form above, then click "Scope this idea" — the AI will evaluate feasibility, suggest a first step, and flag data or resource risks.
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('newModal')">Cancel</button>
+      <button class="btn-save" onclick="saveInitiative()">Add to Board →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── DETAIL MODAL ─── -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="detail-header">Initiative Detail</h2>
+      <button class="modal-close" onclick="closeModal('detailModal')">×</button>
+    </div>
+    <div class="modal-body" id="detail-body">
+      <!-- filled by JS -->
+    </div>
+    <div class="modal-footer">
+      <button class="delete-btn" id="detail-delete-btn">Delete initiative</button>
+      <button class="btn-save" onclick="saveDetailChanges()">Save changes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── Config ───────────────────────────────────────────────────────────────────
+const COLUMNS = [
+  { id: 'idea',      label: 'Ideas',           desc: 'Submitted, not yet evaluated',      cls: 'col-idea' },
+  { id: 'approved',  label: 'Approved',         desc: 'Approved and ready to start',       cls: 'col-approved' },
+  { id: 'active',    label: 'In Progress',      desc: 'Being explored or developed',       cls: 'col-active' },
+  { id: 'pilot',     label: 'Pilot',            desc: 'Running with a test group',         cls: 'col-pilot' },
+  { id: 'measuring', label: 'Measuring Value',  desc: 'Deployed, tracking outcomes',       cls: 'col-measuring' },
+  { id: 'done',      label: 'Completed',        desc: 'Delivered & adopted',               cls: 'col-done' },
+];
+
+// ─── State ────────────────────────────────────────────────────────────────────
+let initiatives = JSON.parse(localStorage.getItem('nl_initiatives') || '[]');
+let selectedValue = '';
+let selectedDataStatus = '';
+let currentDetailId = null;
+
+// Seed data if empty
+if (initiatives.length === 0) {
+  initiatives = [
+    {
+      id: uid(), title: 'AI-assisted technical spec writer',
+      dept: 'Engineering / R&D', owner: 'Erik L.',
+      desc: 'Engineers spend 3–4 hours writing application specs for customers. An AI trained on our product knowledge could draft these in minutes.',
+      outcome: 'Reduce spec writing from 4 hours to 20 minutes per document.',
+      value: 'high', status: 'idea', date: '2026-04-10', aiScope: '',
+      dataItems: [
+        { desc: 'Previous application specs (PDF archive)', status: 'have' },
+        { desc: 'Product technical data sheets', status: 'have' },
+        { desc: 'Customer application questionnaires', status: 'partial' },
+      ], approvedBy: ''
+    },
+    {
+      id: uid(), title: 'Predictive maintenance pilot',
+      dept: 'Operations', owner: 'Maria S.',
+      desc: 'Use sensor data from production lines to predict equipment failures before they happen.',
+      outcome: 'Reduce unplanned downtime by 30% within 12 months.',
+      value: 'high', status: 'approved', date: '2026-03-22', aiScope: '',
+      dataItems: [
+        { desc: 'Machine sensor logs (last 3 years)', status: 'have' },
+        { desc: 'Maintenance event history', status: 'partial' },
+        { desc: 'Equipment failure records', status: 'need' },
+      ], approvedBy: 'Stefan K. (VP Operations)'
+    },
+    {
+      id: uid(), title: 'AI sales quoting assistant',
+      dept: 'Sales', owner: 'Johan A.',
+      desc: 'Help sales team recommend right product and draft proposals based on customer scenario input.',
+      outcome: 'Cut quote preparation time from 3 hours to 30 minutes.',
+      value: 'high', status: 'pilot', date: '2026-04-01', aiScope: '',
+      dataItems: [
+        { desc: 'Historical quotes and won/lost outcomes', status: 'have' },
+        { desc: 'Product catalogue and pricing', status: 'have' },
+      ], approvedBy: 'Anna R. (Sales Director)'
+    },
+    {
+      id: uid(), title: 'Automated invoice processing',
+      dept: 'Finance', owner: 'Anna B.',
+      desc: 'AI reads incoming invoices and matches to POs automatically, reducing manual work by ~80%.',
+      outcome: 'Save 20 hrs/week of manual processing across the finance team.',
+      value: 'mid', status: 'measuring', date: '2026-02-15', aiScope: '',
+      dataItems: [
+        { desc: 'Invoice PDFs (last 2 years)', status: 'have' },
+        { desc: 'PO database export', status: 'have' },
+      ], approvedBy: 'Lars M. (CFO)'
+    },
+    {
+      id: uid(), title: 'Employee FAQ chatbot (HR)',
+      dept: 'HR', owner: 'Lena K.',
+      desc: 'Internal chatbot answering common HR policy questions — holiday rules, benefits, onboarding steps.',
+      outcome: 'Reduce HR email volume by 40%; faster answers for employees.',
+      value: 'mid', status: 'done', date: '2026-01-08', aiScope: '',
+      dataItems: [
+        { desc: 'HR policy documents', status: 'have' },
+        { desc: 'Common questions FAQ log', status: 'have' },
+      ], approvedBy: 'Lena K. (HR Manager)'
+    },
+  ];
+  save();
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+function save() { localStorage.setItem('nl_initiatives', JSON.stringify(initiatives)); }
+function byId(id) { return initiatives.find(i => i.id === id); }
+
+// ─── API Key ──────────────────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  const saved = localStorage.getItem('nl_api_key');
+  if (saved) { document.getElementById('apiKey').value = saved; updateDot(saved); }
+  render();
+});
+
+
+
+function getKey() { return null; /* key handled server-side */ }
+
+// ─── Render Board ─────────────────────────────────────────────────────────────
+function render() {
+  renderStats();
+  renderBoard();
+}
+
+function renderStats() {
+  const counts = {};
+  COLUMNS.forEach(c => counts[c.id] = 0);
+  initiatives.forEach(i => { if (counts[i.status] !== undefined) counts[i.status]++; });
+
+  const colColors = { idea: '#7c6fcd', active: '#0060b8', pilot: '#d97706', measuring: '#059669', done: '#374151' };
+  const bar = document.getElementById('statsBar');
+  bar.innerHTML = COLUMNS.map(c =>
+    `<div class="stat">
+      <div class="stat-dot" style="background:${colColors[c.id]}"></div>
+      <span class="stat-label">${c.label}</span>
+      <span class="stat-count">${counts[c.id]}</span>
+    </div>`
+  ).join('<div class="stats-divider"></div>') +
+  `<div class="stats-divider"></div>
+   <div class="stat"><span class="stat-label">Total initiatives</span><span class="stat-count">${initiatives.length}</span></div>`;
+}
+
+function renderBoard() {
+  const board = document.getElementById('board');
+  board.innerHTML = COLUMNS.map(col => {
+    const items = initiatives.filter(i => i.status === col.id);
+    return `
+    <div class="column ${col.cls}">
+      <div class="column-header">
+        <span>${col.label}</span>
+        <span class="col-count">${items.length}</span>
+      </div>
+      <div class="column-body">
+        ${items.length === 0
+          ? `<div class="empty-col">No initiatives here yet.<br>Drag or move cards to track progress.</div>`
+          : items.map(cardHTML).join('')
+        }
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function cardHTML(i) {
+  const valueClass = i.value === 'high' ? 'tag-value-high' : i.value === 'mid' ? 'tag-value-mid' : 'tag-value-low';
+  const valueLabel = i.value === 'high' ? '🟢 High' : i.value === 'mid' ? '🟡 Medium' : '⚪ Exploratory';
+
+  // data summary badge
+  let dataTag = '';
+  if (i.dataItems && i.dataItems.length) {
+    const have = i.dataItems.filter(d => d.status === 'have').length;
+    const partial = i.dataItems.filter(d => d.status === 'partial').length;
+    const need = i.dataItems.filter(d => d.status === 'need').length;
+    const total = i.dataItems.length;
+    const cls = need > 0 ? 'tag-data-no' : partial > 0 ? 'tag-data-partial' : 'tag-data-yes';
+    const icon = need > 0 ? '❌' : partial > 0 ? '🔶' : '✅';
+    dataTag = `<span class="tag ${cls}">${icon} Data ${have}/${total}</span>`;
+  }
+
+  const approvedTag = i.approvedBy ? `<span class="tag tag-approved">✓ Approved</span>` : '';
+
+  return `
+  <div class="initiative-card" onclick="openDetail('${i.id}')">
+    <div class="card-dept">${i.dept}</div>
+    <div class="card-title">${i.title}</div>
+    <div class="card-desc">${i.desc}</div>
+    <div class="card-footer">
+      <div class="card-meta">
+        <span class="tag ${valueClass}">${valueLabel}</span>
+        ${dataTag}
+        ${approvedTag}
+        ${i.aiScope ? '<span class="tag tag-ai">✦ AI scoped</span>' : ''}
+      </div>
+      <div class="card-date">${i.owner ? i.owner + ' · ' : ''}${i.date}</div>
+    </div>
+  </div>`;
+}
+
+// ─── New Initiative Modal ─────────────────────────────────────────────────────
+function openNewModal() {
+  document.getElementById('new-title').value = '';
+  document.getElementById('new-dept').value = '';
+  document.getElementById('new-owner').value = '';
+  document.getElementById('new-desc').value = '';
+  document.getElementById('new-outcome').value = '';
+  document.getElementById('dataItemsList').innerHTML = '';
+  document.getElementById('aiOutput').textContent = 'Fill in the form above, then click "Scope this idea" — the AI will evaluate feasibility, suggest a first step, and flag data or resource risks.';
+  selectedValue = '';
+  ['high','mid','low'].forEach(v => document.getElementById('val-'+v).className = 'value-btn');
+  // add one empty data item row to start
+  addDataItem();
+  document.getElementById('newModal').className = 'modal-overlay open';
+}
+
+// ─── Per-item data rows ───────────────────────────────────────────────────────
+let dataItemCounter = 0;
+
+function addDataItem(desc = '', status = '') {
+  const id = 'di-' + (++dataItemCounter);
+  const list = document.getElementById('dataItemsList');
+  const row = document.createElement('div');
+  row.className = 'data-item-row';
+  row.id = id;
+  row.innerHTML = `
+    <input type="text" placeholder="Describe this data…" value="${escapeHtml(desc)}" />
+    <div class="dis-btns">
+      <button class="dis-btn ${status==='have'?'active-have':''}"    onclick="setItemStatus('${id}','have')"   >✅ I have it</button>
+      <button class="dis-btn ${status==='partial'?'active-partial':''}" onclick="setItemStatus('${id}','partial')">🔶 Partial</button>
+      <button class="dis-btn ${status==='need'?'active-need':''}"    onclick="setItemStatus('${id}','need')"   >❌ Need it</button>
+    </div>
+    <button class="data-item-remove" onclick="removeDataItem('${id}')" title="Remove">×</button>
+  `;
+  list.appendChild(row);
+}
+
+function setItemStatus(rowId, status) {
+  const row = document.getElementById(rowId);
+  if (!row) return;
+  row.querySelectorAll('.dis-btn').forEach(btn => {
+    btn.className = 'dis-btn';
+    if (btn.getAttribute('onclick').includes("'"+status+"'")) btn.classList.add('active-'+status);
+  });
+  row.dataset.status = status;
+}
+
+function removeDataItem(rowId) {
+  const el = document.getElementById(rowId);
+  if (el) el.remove();
+}
+
+function collectDataItems() {
+  return [...document.querySelectorAll('#dataItemsList .data-item-row')].map(row => ({
+    desc: row.querySelector('input[type="text"]').value.trim(),
+    status: row.dataset.status || ''
+  })).filter(item => item.desc);
+}
+
+function selectValue(v) {
+  selectedValue = v;
+  const map = { high: 'selected-high', mid: 'selected-mid', low: 'selected-low' };
+  ['high','mid','low'].forEach(x => {
+    document.getElementById('val-'+x).className = 'value-btn' + (x === v ? ' ' + map[x] : '');
+  });
+}
+
+async function scopeIdea() {
+  const title = document.getElementById('new-title').value.trim();
+  const desc = document.getElementById('new-desc').value.trim();
+  const dept = document.getElementById('new-dept').value;
+
+  
+  if (!title && !desc) { showScopeError('Please fill in at least the title and problem description first.'); return; }
+
+  const btn = document.getElementById('scopeBtn');
+  btn.disabled = true;
+  document.getElementById('aiOutput').innerHTML = '<span class="ai-mini-spinner"></span> Analysing…';
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'claude-opus-4-6',
+        max_tokens: 500,
+        system: `You are an AI adoption advisor at an industrial manufacturing company (Nord-Lock Group — global leader in bolting and fastening solutions).
+You help teams scope and evaluate internal AI initiative ideas. Be practical, honest, and concise.
+The company is in early AI maturity — most employees are not technical.
+Respond with 3 short sections:
+1. FEASIBILITY (1-2 sentences: is this realistic? what's needed?)
+2. SUGGESTED FIRST STEP (1 concrete action to test the idea in 2-4 weeks)
+3. RISKS OR CONSIDERATIONS (1-2 brief points)
+Keep it to 150 words max. Be direct and useful.`,
+        messages: [{ role: 'user', content: `Initiative: ${title}\nDepartment: ${dept || 'Not specified'}\nProblem: ${desc}\nExpected outcome: ${document.getElementById('new-outcome').value.trim() || 'Not specified'}\nData items:\n${collectDataItems().map(d => `- ${d.desc} [${d.status === 'have' ? 'Have it' : d.status === 'partial' ? 'Partial' : d.status === 'need' ? 'Need it' : 'Status unknown'}]`).join('\n') || 'None listed'}` }]
+      })
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      const msg = data.error?.message || `API error ${res.status}`;
+      if (res.status === 401) showScopeError('Invalid API key. Check the key in the header — it should start with sk-ant-');
+      else showScopeError(msg);
+      return;
+    }
+    document.getElementById('aiOutput').style.color = '#374151';
+    document.getElementById('aiOutput').style.background = 'transparent';
+    document.getElementById('aiOutput').textContent = data.content?.[0]?.text || 'No response.';
+  } catch(e) {
+    showScopeError('Network error — check your internet connection. Detail: ' + e.message);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function saveInitiative() {
+  const title = document.getElementById('new-title').value.trim();
+  const dept = document.getElementById('new-dept').value;
+  if (!title) { alert('Please enter a title.'); return; }
+
+  const aiText = document.getElementById('aiOutput').textContent;
+  const aiScope = aiText.includes('Fill in the form') ? '' : aiText;
+
+  initiatives.unshift({
+    id: uid(),
+    title,
+    dept: dept || 'Other',
+    owner: document.getElementById('new-owner').value.trim(),
+    desc: document.getElementById('new-desc').value.trim(),
+    outcome: document.getElementById('new-outcome').value.trim(),
+    value: selectedValue || 'low',
+    dataItems: collectDataItems(),
+    status: 'idea',
+    approvedBy: '',
+    date: new Date().toISOString().slice(0, 10),
+    aiScope
+  });
+
+  save();
+  render();
+  closeModal('newModal');
+}
+
+// ─── Detail Modal ─────────────────────────────────────────────────────────────
+function openDetail(id) {
+  currentDetailId = id;
+  const item = byId(id);
+  document.getElementById('detail-header').textContent = item.title;
+
+  const valueMap = { high: 'selected-high', mid: 'selected-mid', low: 'selected-low' };
+  const valueLabel = { high: '🟢 High', mid: '🟡 Medium', low: '⚪ Exploratory' };
+
+  const isApproved = item.status === 'approved';
+  document.getElementById('detail-body').innerHTML = `
+    <div class="detail-section">
+      <div class="detail-label">Title</div>
+      <input type="text" id="d-title" value="${escapeHtml(item.title)}" style="width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;" />
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div class="detail-section">
+        <div class="detail-label">Department</div>
+        <input type="text" id="d-dept" value="${escapeHtml(item.dept)}" style="width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;" />
+      </div>
+      <div class="detail-section">
+        <div class="detail-label">Owner</div>
+        <input type="text" id="d-owner" value="${escapeHtml(item.owner || '')}" style="width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;" />
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-label">Problem to solve</div>
+      <textarea id="d-desc" style="width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;min-height:70px;resize:vertical;line-height:1.5">${escapeHtml(item.desc)}</textarea>
+    </div>
+    <div class="detail-section">
+      <div class="detail-label">Expected outcome</div>
+      <textarea id="d-outcome" style="width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;min-height:55px;resize:vertical;line-height:1.5">${escapeHtml(item.outcome || '')}</textarea>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div class="detail-section">
+        <div class="detail-label">Status</div>
+        <select id="d-status" class="status-select" style="width:100%" onchange="onDetailStatusChange(this.value)">
+          ${COLUMNS.map(c => `<option value="${c.id}" ${item.status === c.id ? 'selected' : ''}>${c.label}</option>`).join('')}
+        </select>
+      </div>
+      <div class="detail-section">
+        <div class="detail-label">Business Value</div>
+        <select id="d-value" class="status-select" style="width:100%">
+          <option value="high" ${item.value==='high'?'selected':''}>🟢 High</option>
+          <option value="mid" ${item.value==='mid'?'selected':''}>🟡 Medium</option>
+          <option value="low" ${item.value==='low'?'selected':''}>⚪ Exploratory</option>
+        </select>
+      </div>
+    </div>
+    <div class="detail-section" id="d-approver-section" style="${isApproved || item.approvedBy ? '' : 'display:none'}">
+      <div class="detail-label">Approved by <span style="color:#dc2626">*</span></div>
+      <input type="text" id="d-approved-by" placeholder="Full name and title of approver e.g. Stefan K. (VP Operations)" value="${escapeHtml(item.approvedBy || '')}"
+        style="width:100%;border:1px solid #0891b2;border-radius:6px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:#f0fdff;" />
+    </div>
+    ${item.dataItems && item.dataItems.length ? `
+    <div class="detail-section">
+      <div class="detail-label">Data inventory</div>
+      <div style="display:flex;flex-direction:column;gap:5px;margin-top:4px">
+        ${item.dataItems.map(d => {
+          const st = d.status === 'have' ? { icon:'✅', label:'Have it', bg:'#dcfce7', color:'#166534' }
+                   : d.status === 'partial' ? { icon:'🔶', label:'Partial', bg:'#fef9c3', color:'#713f12' }
+                   : d.status === 'need' ? { icon:'❌', label:'Need it', bg:'#fee2e2', color:'#991b1b' }
+                   : { icon:'—', label:'Unknown', bg:'#f1f5f9', color:'#64748b' };
+          return `<div style="display:flex;align-items:center;gap:8px;font-size:0.84rem">
+            <span style="background:${st.bg};color:${st.color};border-radius:6px;padding:2px 8px;font-size:0.72rem;font-weight:700;white-space:nowrap">${st.icon} ${st.label}</span>
+            <span style="color:#374151">${escapeHtml(d.desc)}</span>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>` : ''}
+    <div class="detail-section">
+      <div class="ai-section" style="margin-top:0">
+        <div class="ai-section-header">
+          <span>✦ AI Scoping Notes</span>
+          <button class="btn-ai" id="detail-scope-btn" onclick="scopeExistingIdea('${item.id}')">
+            ${item.aiScope ? 'Regenerate →' : 'Generate →'}
+          </button>
+        </div>
+        <div class="ai-output" id="detail-ai-output" style="min-height:50px">
+          ${item.aiScope ? escapeHtml(item.aiScope) : 'Click "Generate" to get AI feasibility analysis, suggested first step, and risk flags for this initiative.'}
+        </div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-label">Submitted</div>
+      <div class="detail-value" style="color:#9ca3af;font-size:0.82rem">${item.date}</div>
+    </div>
+  `;
+
+  document.getElementById('detail-delete-btn').onclick = () => {
+    if (confirm('Delete this initiative?')) {
+      initiatives = initiatives.filter(i => i.id !== id);
+      save(); render(); closeModal('detailModal');
+    }
+  };
+
+  document.getElementById('detailModal').className = 'modal-overlay open';
+}
+
+async function scopeExistingIdea(id) {
+  const item = byId(id);
+  const outputEl = document.getElementById('detail-ai-output');
+  const btn = document.getElementById('detail-scope-btn');
+
+  
+
+  btn.disabled = true;
+  outputEl.style.cssText = 'min-height:50px';
+  outputEl.innerHTML = '<span class="ai-mini-spinner"></span> Analysing…';
+
+  const dataLines = (item.dataItems || []).map(d =>
+    `- ${d.desc} [${d.status === 'have' ? 'Have it' : d.status === 'partial' ? 'Partial' : d.status === 'need' ? 'Need it' : 'Unknown'}]`
+  ).join('\n') || 'None listed';
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'claude-opus-4-6',
+        max_tokens: 500,
+        system: `You are an AI adoption advisor at Nord-Lock Group (global leader in bolting and fastening solutions).
+Help teams scope internal AI initiative ideas. Be practical, honest, concise. The company is in early AI maturity.
+Respond with exactly 3 short sections:
