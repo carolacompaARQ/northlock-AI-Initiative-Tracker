@@ -3,429 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nord-Lock Group — Bolting Solutions Advisor</title>
+<title>Nord-Lock Group - Bolting Solutions Advisor</title>
 <style>
   :root {
-    --nl-dark: #1a1f2e;
-    --nl-blue: #003d7a;
-    --nl-accent: #e8371e;
-    --nl-light-blue: #0060b8;
-    --nl-gray: #4a5568;
-    --nl-light: #f4f6fa;
-    --nl-border: #d1d9e6;
-    --nl-white: #ffffff;
-    --radius: 8px;
-    --shadow: 0 2px 16px rgba(0,0,0,0.10);
+    --nl-dark: #1a1f2e; --nl-blue: #003d7a; --nl-accent: #e8371e;
+    --nl-light-blue: #0060b8; --nl-gray: #4a5568; --nl-light: #f4f6fa;
+    --nl-border: #d1d9e6; --radius: 8px; --shadow: 0 2px 16px rgba(0,0,0,0.10);
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: var(--nl-light);
-    color: var(--nl-dark);
-    min-height: 100vh;
-  }
-
-  header {
-    background: var(--nl-dark);
-    padding: 0 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .logo-mark {
-    width: 40px;
-    height: 40px;
-    background: var(--nl-accent);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    color: white;
-    font-size: 14px;
-    letter-spacing: -1px;
-  }
-
-  .logo-text {
-    color: white;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  .logo-sub {
-    color: #8899aa;
-    font-size: 11px;
-    letter-spacing: 0.5px;
-  }
-
-  .badge {
-    background: rgba(255,255,255,0.1);
-    color: #aabbcc;
-    font-size: 11px;
-    padding: 4px 12px;
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.15);
-    letter-spacing: 0.5px;
-  }
-
-  .main-wrap {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem 4rem;
-  }
-
-  .hero {
-    background: linear-gradient(135deg, var(--nl-blue) 0%, var(--nl-dark) 100%);
-    border-radius: 12px;
-    padding: 2rem 2.5rem;
-    color: white;
-    margin-bottom: 2rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero::after {
-    content: '';
-    position: absolute;
-    right: -30px;
-    top: -30px;
-    width: 180px;
-    height: 180px;
-    border: 30px solid rgba(255,255,255,0.05);
-    border-radius: 50%;
-  }
-
-  .hero h1 {
-    font-size: 1.6rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-  }
-
-  .hero p {
-    color: #a0b8d0;
-    font-size: 0.95rem;
-    max-width: 560px;
-    line-height: 1.6;
-  }
-
-  .api-bar {
-    background: white;
-    border: 1px solid var(--nl-border);
-    border-radius: var(--radius);
-    padding: 1rem 1.25rem;
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    box-shadow: var(--shadow);
-  }
-
-  .api-bar label {
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--nl-gray);
-    white-space: nowrap;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .api-bar input {
-    flex: 1;
-    border: 1px solid var(--nl-border);
-    border-radius: 6px;
-    padding: 0.5rem 0.75rem;
-    font-size: 0.88rem;
-    font-family: monospace;
-    color: var(--nl-dark);
-    background: var(--nl-light);
-  }
-
-  .api-bar input:focus { outline: 2px solid var(--nl-light-blue); border-color: transparent; }
-
-  .api-status {
-    font-size: 0.78rem;
-    padding: 4px 10px;
-    border-radius: 20px;
-    white-space: nowrap;
-    font-weight: 600;
-  }
-
-  .api-status.ok { background: #e6f7ee; color: #1a7a40; }
-  .api-status.missing { background: #fff3e0; color: #b36000; }
-
-  .card {
-    background: white;
-    border: 1px solid var(--nl-border);
-    border-radius: var(--radius);
-    padding: 1.75rem;
-    margin-bottom: 1.5rem;
-    box-shadow: var(--shadow);
-  }
-
-  .card-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--nl-blue);
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 2px solid var(--nl-light);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .card-title .step {
-    width: 24px;
-    height: 24px;
-    background: var(--nl-accent);
-    color: white;
-    border-radius: 50%;
-    font-size: 0.75rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--nl-light); color: var(--nl-dark); min-height: 100vh; }
+  header { background: var(--nl-dark); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo-mark { width: 40px; height: 40px; background: var(--nl-accent); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 900; color: white; font-size: 14px; letter-spacing: -1px; }
+  .logo-text { color: white; font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+  .logo-sub { color: #8899aa; font-size: 11px; }
+  .badge { background: rgba(255,255,255,0.1); color: #aabbcc; font-size: 11px; padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.15); }
+  .main-wrap { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+  .hero { background: linear-gradient(135deg, var(--nl-blue) 0%, var(--nl-dark) 100%); border-radius: 12px; padding: 2rem 2.5rem; color: white; margin-bottom: 2rem; }
+  .hero h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .hero p { color: #a0b8d0; font-size: 0.95rem; max-width: 560px; line-height: 1.6; }
+  .card { background: white; border: 1px solid var(--nl-border); border-radius: var(--radius); padding: 1.75rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); }
+  .card-title { font-size: 1rem; font-weight: 700; color: var(--nl-blue); margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--nl-light); display: flex; align-items: center; gap: 8px; }
+  .card-title .step { width: 24px; height: 24px; background: var(--nl-accent); color: white; border-radius: 50%; font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .examples-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 0.75rem; }
+  .example-btn { background: var(--nl-light); border: 1px solid var(--nl-border); border-radius: 10px; padding: 1rem; text-align: left; cursor: pointer; transition: border-color 0.15s, background 0.15s; font-family: inherit; }
+  .example-btn:hover { border-color: var(--nl-light-blue); background: #f0f5ff; }
+  .ex-icon { font-size: 1.4rem; margin-bottom: 0.4rem; }
+  .ex-label { font-size: 0.82rem; font-weight: 700; color: var(--nl-blue); margin-bottom: 0.3rem; }
+  .ex-desc { font-size: 0.76rem; color: var(--nl-gray); line-height: 1.5; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
   .form-group.full { grid-column: 1 / -1; }
-
-  label {
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--nl-gray);
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-  }
-
-  select, input[type="text"], textarea {
-    border: 1px solid var(--nl-border);
-    border-radius: 6px;
-    padding: 0.6rem 0.85rem;
-    font-size: 0.9rem;
-    color: var(--nl-dark);
-    background: white;
-    transition: border-color 0.2s;
-    font-family: inherit;
-  }
-
-  select:focus, input[type="text"]:focus, textarea:focus {
-    outline: 2px solid var(--nl-light-blue);
-    border-color: transparent;
-  }
-
+  label { font-size: 0.82rem; font-weight: 600; color: var(--nl-gray); text-transform: uppercase; letter-spacing: 0.4px; }
+  select, input[type="text"], textarea { border: 1px solid var(--nl-border); border-radius: 6px; padding: 0.6rem 0.85rem; font-size: 0.9rem; color: var(--nl-dark); background: white; transition: border-color 0.2s; font-family: inherit; }
+  select:focus, input[type="text"]:focus, textarea:focus { outline: 2px solid var(--nl-light-blue); border-color: transparent; }
   textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
-
-  .checkbox-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.25rem;
-  }
-
-  .checkbox-pill {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--nl-light);
-    border: 1px solid var(--nl-border);
-    border-radius: 20px;
-    padding: 5px 12px;
-    cursor: pointer;
-    font-size: 0.83rem;
-    color: var(--nl-gray);
-    transition: all 0.15s;
-    user-select: none;
-  }
-
+  .checkbox-group { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.25rem; }
+  .checkbox-pill { display: flex; align-items: center; gap: 6px; background: var(--nl-light); border: 1px solid var(--nl-border); border-radius: 20px; padding: 5px 12px; cursor: pointer; font-size: 0.83rem; color: var(--nl-gray); transition: all 0.15s; user-select: none; }
   .checkbox-pill input { display: none; }
-
-  .checkbox-pill:has(input:checked) {
-    background: #e8f0fc;
-    border-color: var(--nl-light-blue);
-    color: var(--nl-blue);
-    font-weight: 600;
-  }
-
-  .submit-btn {
-    width: 100%;
-    background: var(--nl-accent);
-    color: white;
-    border: none;
-    border-radius: var(--radius);
-    padding: 1rem;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    letter-spacing: 0.5px;
-    transition: background 0.2s, transform 0.1s;
-    margin-top: 0.5rem;
-  }
-
+  .checkbox-pill:has(input:checked) { background: #e8f0fc; border-color: var(--nl-light-blue); color: var(--nl-blue); font-weight: 600; }
+  .submit-btn { width: 100%; background: var(--nl-accent); color: white; border: none; border-radius: var(--radius); padding: 1rem; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 0.5rem; transition: background 0.2s; }
   .submit-btn:hover { background: #c22d17; }
-  .submit-btn:active { transform: scale(0.99); }
-  .submit-btn:disabled { background: #aab4c0; cursor: not-allowed; transform: none; }
-
-  /* Response area */
-  .response-card {
-    background: white;
-    border: 1px solid var(--nl-border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    display: none;
-  }
-
+  .submit-btn:disabled { background: #aab4c0; cursor: not-allowed; }
+  .response-card { background: white; border: 1px solid var(--nl-border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; display: none; }
   .response-card.visible { display: block; }
-
-  .response-header {
-    background: var(--nl-dark);
-    padding: 1rem 1.75rem;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .response-header h3 { font-size: 0.95rem; font-weight: 600; letter-spacing: 0.3px; }
+  .response-header { background: var(--nl-dark); padding: 1rem 1.75rem; color: white; display: flex; align-items: center; justify-content: space-between; }
+  .response-header h3 { font-size: 0.95rem; font-weight: 600; }
   .response-header .tag { background: var(--nl-accent); color: white; font-size: 0.75rem; padding: 3px 10px; border-radius: 10px; font-weight: 700; }
-
   .response-body { padding: 1.75rem; }
-
-  .response-body h2 {
-    color: var(--nl-blue);
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-  }
-
-  .response-body h3 {
-    color: var(--nl-dark);
-    font-size: 1rem;
-    margin: 1.25rem 0 0.5rem;
-    font-weight: 700;
-  }
-
-  .response-body p {
-    color: var(--nl-gray);
-    line-height: 1.7;
-    margin-bottom: 0.75rem;
-    font-size: 0.92rem;
-  }
-
-  .response-body ul {
-    margin: 0.5rem 0 0.75rem 1.25rem;
-    color: var(--nl-gray);
-    font-size: 0.92rem;
-    line-height: 1.7;
-  }
-
+  .response-body h2 { color: var(--nl-blue); font-size: 1.3rem; margin-bottom: 1rem; }
+  .response-body h3 { color: var(--nl-dark); font-size: 1rem; margin: 1.25rem 0 0.5rem; font-weight: 700; }
+  .response-body p { color: var(--nl-gray); line-height: 1.7; margin-bottom: 0.75rem; font-size: 0.92rem; }
+  .response-body ul { margin: 0.5rem 0 0.75rem 1.25rem; color: var(--nl-gray); font-size: 0.92rem; line-height: 1.7; }
   .response-body li { margin-bottom: 0.3rem; }
-
-  .product-badge {
-    display: inline-block;
-    background: #e8f0fc;
-    color: var(--nl-blue);
-    font-weight: 700;
-    font-size: 0.8rem;
-    padding: 4px 12px;
-    border-radius: 20px;
-    margin-right: 6px;
-    margin-bottom: 6px;
-    border: 1px solid #c5d8f5;
-  }
-
-  .next-steps {
-    background: var(--nl-light);
-    border-left: 4px solid var(--nl-accent);
-    padding: 1rem 1.25rem;
-    border-radius: 0 6px 6px 0;
-    margin-top: 1.25rem;
-  }
-
-  .next-steps h4 {
-    font-size: 0.82rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--nl-accent);
-    font-weight: 700;
-    margin-bottom: 0.4rem;
-  }
-
+  .product-badge { display: inline-block; background: #e8f0fc; color: var(--nl-blue); font-weight: 700; font-size: 0.8rem; padding: 4px 12px; border-radius: 20px; margin-right: 6px; margin-bottom: 6px; border: 1px solid #c5d8f5; }
+  .next-steps { background: var(--nl-light); border-left: 4px solid var(--nl-accent); padding: 1rem 1.25rem; border-radius: 0 6px 6px 0; margin-top: 1.25rem; }
+  .next-steps h4 { font-size: 0.82rem; text-transform: uppercase; color: var(--nl-accent); font-weight: 700; margin-bottom: 0.4rem; }
   .next-steps p { margin: 0; }
-
-  .loading {
-    display: none;
-    text-align: center;
-    padding: 2.5rem;
-  }
-
+  .loading { display: none; text-align: center; padding: 2.5rem; }
   .loading.visible { display: block; }
-
-  .spinner {
-    width: 44px;
-    height: 44px;
-    border: 4px solid var(--nl-border);
-    border-top-color: var(--nl-accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 1rem;
-  }
-
+  .spinner { width: 44px; height: 44px; border: 4px solid var(--nl-border); border-top-color: var(--nl-accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
   .loading p { color: var(--nl-gray); font-size: 0.9rem; }
-
-  .error-box {
-    background: #fff5f5;
-    border: 1px solid #fca5a5;
-    border-radius: var(--radius);
-    padding: 1rem 1.25rem;
-    color: #b91c1c;
-    font-size: 0.88rem;
-    display: none;
-    margin-bottom: 1rem;
-  }
-
+  .error-box { background: #fff5f5; border: 1px solid #fca5a5; border-radius: var(--radius); padding: 1rem 1.25rem; color: #b91c1c; font-size: 0.88rem; display: none; margin-bottom: 1rem; }
   .error-box.visible { display: block; }
-
-  footer {
-    text-align: center;
-    padding: 2rem;
-    color: #8899aa;
-    font-size: 0.8rem;
-    border-top: 1px solid var(--nl-border);
-    margin-top: 1rem;
-  }
-
-  @media (max-width: 640px) {
-    .form-grid { grid-template-columns: 1fr; }
-    .hero { padding: 1.5rem; }
-    .hero h1 { font-size: 1.25rem; }
-  }
+  footer { text-align: center; padding: 2rem; color: #8899aa; font-size: 0.8rem; border-top: 1px solid var(--nl-border); margin-top: 1rem; }
+  @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } .hero { padding: 1.5rem; } .hero h1 { font-size: 1.25rem; } }
 </style>
 </head>
 <body>
@@ -438,27 +81,52 @@
       <div class="logo-sub">Bolting Solutions</div>
     </div>
   </div>
-  <span class="badge">AI Sales Advisor — Beta</span>
+  <span class="badge">AI Sales Advisor</span>
 </header>
 
 <div class="main-wrap">
 
   <div class="hero">
     <h1>Bolting Solutions Advisor</h1>
-    <p>Describe your customer's application and challenge. The advisor will recommend the right Nord-Lock Group product with technical reasoning — helping you propose the most reliable solution faster.</p>
+    <p>Describe your customer's application and challenge. The advisor will recommend the right Nord-Lock Group product with technical reasoning.</p>
   </div>
-  <!-- Error box -->
+
+  <div class="card">
+    <div class="card-title"><span style="font-size:1rem">&#128161;</span>&nbsp; Try an example scenario</div>
+    <p style="font-size:0.83rem;color:#6a7a8a;margin-bottom:1rem;line-height:1.5;">Not familiar with bolting? Click any scenario below to pre-fill the form, then click <strong>Get Product Recommendation</strong> to see the AI in action.</p>
+    <div class="examples-grid">
+      <button class="example-btn" onclick="fillExample('wind')">
+        <div class="ex-icon">&#127758;</div>
+        <div class="ex-label">Wind Energy</div>
+        <div class="ex-desc">Bolts loosening on offshore wind tower flanges due to constant vibration and harsh sea conditions</div>
+      </button>
+      <button class="example-btn" onclick="fillExample('rail')">
+        <div class="ex-icon">&#128646;</div>
+        <div class="ex-label">Rail Safety</div>
+        <div class="ex-desc">Safety-critical wheel axle bolts coming loose from vibration on high-speed trains</div>
+      </button>
+      <button class="example-btn" onclick="fillExample('oil')">
+        <div class="ex-icon">&#128295;</div>
+        <div class="ex-label">Oil &amp; Gas Flange</div>
+        <div class="ex-desc">Offshore pipeline flange with 24 large bolts needing exact simultaneous tightening to prevent leaks</div>
+      </button>
+      <button class="example-btn" onclick="fillExample('mining')">
+        <div class="ex-icon">&#9881;</div>
+        <div class="ex-label">Mining Equipment</div>
+        <div class="ex-desc">Excavator boom pin joints wearing out rapidly, causing expensive downtime in abrasive conditions</div>
+      </button>
+    </div>
+  </div>
+
   <div class="error-box" id="errorBox"></div>
 
-  <!-- Form Card -->
-  <div class="card">
+  <div class="card" id="formCard">
     <div class="card-title"><span class="step">1</span> Describe the Customer Scenario</div>
     <div class="form-grid">
-
       <div class="form-group">
         <label>Industry / Sector</label>
         <select id="industry">
-          <option value="">Select industry…</option>
+          <option value="">Select industry...</option>
           <option>Oil &amp; Gas</option>
           <option>Wind Energy</option>
           <option>Rail &amp; Transportation</option>
@@ -471,47 +139,40 @@
           <option>Other</option>
         </select>
       </div>
-
       <div class="form-group">
         <label>Bolt / Thread Size Range</label>
-        <input type="text" id="boltSize" placeholder="e.g. M12–M48, 1/2&quot;–2&quot;" />
+        <input type="text" id="boltSize" placeholder="e.g. M12-M48" />
       </div>
-
       <div class="form-group full">
         <label>What is the customer's problem or challenge?</label>
-        <textarea id="challenge" placeholder="e.g. Bolts on a wind turbine main shaft keep loosening due to vibration during operation. The flange is difficult to access with standard torque equipment. Safety is critical and downtime must be minimised."></textarea>
+        <textarea id="challenge" placeholder="Describe the situation: what keeps failing, what conditions are involved, what has been tried..."></textarea>
       </div>
-
       <div class="form-group full">
         <label>Operating Conditions (select all that apply)</label>
         <div class="checkbox-group">
-          <label class="checkbox-pill"><input type="checkbox" value="vibration"> 🔧 High vibration / dynamic loads</label>
-          <label class="checkbox-pill"><input type="checkbox" value="corrosion"> 🌊 Corrosive / harsh environment</label>
-          <label class="checkbox-pill"><input type="checkbox" value="hightemp"> 🌡️ High temperature</label>
-          <label class="checkbox-pill"><input type="checkbox" value="access"> 🚪 Limited access / confined space</label>
-          <label class="checkbox-pill"><input type="checkbox" value="heavyload"> ⚙️ Very heavy loads / large bolt diameters</label>
-          <label class="checkbox-pill"><input type="checkbox" value="precision"> 🎯 High precision / exact preload required</label>
-          <label class="checkbox-pill"><input type="checkbox" value="maintenance"> 🔄 Frequent re-tightening / high maintenance cost</label>
-          <label class="checkbox-pill"><input type="checkbox" value="safety"> ⚠️ Safety-critical application</label>
+          <label class="checkbox-pill"><input type="checkbox" value="vibration"> &#128295; High vibration</label>
+          <label class="checkbox-pill"><input type="checkbox" value="corrosion"> &#127754; Corrosive environment</label>
+          <label class="checkbox-pill"><input type="checkbox" value="hightemp"> &#127777; High temperature</label>
+          <label class="checkbox-pill"><input type="checkbox" value="access"> Limited access</label>
+          <label class="checkbox-pill"><input type="checkbox" value="heavyload"> &#9881; Very heavy loads</label>
+          <label class="checkbox-pill"><input type="checkbox" value="precision"> Precise preload required</label>
+          <label class="checkbox-pill"><input type="checkbox" value="maintenance"> High maintenance cost</label>
+          <label class="checkbox-pill"><input type="checkbox" value="safety"> Safety-critical</label>
         </div>
       </div>
-
       <div class="form-group full">
-        <label>Current solution (if any) — optional</label>
-        <input type="text" id="currentSolution" placeholder="e.g. Standard nuts and bolts with Loctite, spring washers, etc." />
+        <label>Current solution (optional)</label>
+        <input type="text" id="currentSolution" placeholder="e.g. Standard nuts with spring washers, Loctite..." />
       </div>
-
     </div>
-    <button class="submit-btn" id="submitBtn" onclick="getRecommendation()">Get Product Recommendation →</button>
+    <button class="submit-btn" id="submitBtn" onclick="getRecommendation()">Get Product Recommendation &rarr;</button>
   </div>
 
-  <!-- Loading -->
   <div class="loading" id="loading">
     <div class="spinner"></div>
-    <p>Analysing application and matching Nord-Lock solutions…</p>
+    <p>Analysing application and matching Nord-Lock solutions...</p>
   </div>
 
-  <!-- Response -->
   <div class="response-card" id="responseCard">
     <div class="response-header">
       <h3>Recommendation for your customer</h3>
@@ -523,252 +184,163 @@
 </div>
 
 <footer>
-  Nord-Lock Group AI Sales Advisor — internal prototype · Built to demonstrate AI-assisted sales support
+  Nord-Lock Group AI Sales Advisor &mdash; prototype &middot;
+  <a href="/" style="color:#8899aa">Back to portfolio</a>
 </footer>
 
 <script>
-// ─── Product Knowledge Base ──────────────────────────────────────────────────
-const PRODUCT_KNOWLEDGE = `
-## NORD-LOCK GROUP — PRODUCT FAMILIES
+var PRODUCT_KNOWLEDGE = "NORD-LOCK GROUP PRODUCTS\n\n1. NORD-LOCK WEDGE-LOCKING WASHERS\nSolves: bolt loosening from vibration and dynamic loads.\nHow: cam angle larger than thread pitch creates wedge effect - geometry locks, not friction.\nProducts: Original (M5-M200+), X-Series (extreme vibration), SP (oversized holes), Combi Nuts.\nBest for: Rail, Wind, Oil & Gas, Construction, Defense, Mining. Vibration, safety-critical.\n\n2. SUPERBOLT - MULTI-JACKBOLT TENSIONERS\nSolves: large bolts that cannot be tightened with standard torque tools.\nHow: collar with small jackbolts tightened with hand tool - no hydraulic equipment needed.\nProducts: MTB (standard nut), CY (shaft), SX (stud), LST (locking), NXT (next-gen).\nBest for: Power generation, Oil & Gas, Mining. M30-M500+, confined spaces, high precision.\n\n3. BOLTIGHT - HYDRAULIC BOLT TENSIONING\nSolves: need for precise, even preload across many bolts simultaneously.\nHow: hydraulic tools apply direct axial tension - no friction variables. Multiple bolts at once.\nProducts: Standard tensioners, Typhoon (compact), pumps, turbine kits (GE, Siemens, MHI).\nBest for: Oil & Gas flanges, turbines, wind tower flanges. Maximum precision, safety-critical.\n\n4. EXPANDER SYSTEM - PIVOT PINS\nSolves: joint play and wear in pin joints of heavy equipment.\nHow: expanding pin locks into bore, eliminating clearance.\nBest for: Excavators, cranes, mining, forestry.\n\nSELECTION: vibration/loosening=Nord-Lock Washers, large bolt/no torque access=Superbolt, precise preload/many bolts=Boltight, pin joint wear=Expander System.";
 
-### 1. NORD-LOCK WEDGE-LOCKING WASHERS
-**What it solves:** Bolts loosening due to vibration and dynamic loads.
-**How it works:** A pair of washers with cams and serrations. The cam angle (α) is larger than the thread pitch (β), creating a wedge effect. Any rotation attempt increases clamp load — geometry-based locking, not friction.
-**Key products:**
-- **Nord-Lock Original Washers** — Standard range, M5–M200+, various materials. For general vibration-prone applications.
-- **Nord-Lock X-Series** — Enhanced serrations for extreme vibration, stainless steel, ideal for highly dynamic loads.
-- **Nord-Lock SP Washers** — For oversized holes/slots in structural steel.
-- **Nord-Lock Combi Nuts** — Integrated washer + nut, saves assembly time.
-- **Nord-Lock Wheel Nuts** — Specifically for automotive/wheel bolt applications.
-**Best for:** Industries: Rail, Wind, Oil & Gas, Construction, Defense, Mining. Conditions: vibration, dynamic loads, safety-critical. Bolt sizes M5–M200+.
-**Not ideal for:** When the main issue is achieving very high, precise preload on large bolts (use Superbolt/Boltight instead).
-**Materials:** Carbon steel (zinc-flake or hot-dip galvanised), stainless steel (A2/A4), Inconel, custom.
-
-### 2. SUPERBOLT — MULTI-JACKBOLT TENSIONERS (MJT)
-**What it solves:** Large bolt assemblies that cannot be tightened with standard torque tools. No need for large hydraulic equipment or high torque.
-**How it works:** A collar with multiple small jackbolts around the circumference. Each jackbolt is tightened with a small hand tool — no special equipment. Very high, even clamping load achieved through multiple small forces.
-**Key products:**
-- **Superbolt MTB** — Standard multi-jackbolt tensioner, used as a nut replacement. Most common.
-- **Superbolt CY (Cylindrical)** — For cylindrical applications, shafts.
-- **Superbolt SX** — For studs.
-- **Superbolt SJ (Single Jackbolt)** — For simpler/smaller applications.
-- **Superbolt LST/LSF** — Locking and securing tensioner, also prevents loosening.
-- **Superbolt NXT** — Next-generation design for easier assembly.
-**Best for:** Industries: Power generation (gas turbines, wind turbines), Oil & Gas, Mining, Heavy machinery. Conditions: Very large bolt diameters (M30–M500+), confined spaces (small tools), high precision required, no access for hydraulic equipment. Applications: Turbine casings, pressure vessels, main shafts, flanges.
-**Key selling point:** Can replace large hydraulic equipment. Tightened with simple hand tools. Even load distribution.
-
-### 3. BOLTIGHT — HYDRAULIC BOLT TENSIONING
-**What it solves:** Need for extremely precise, high and even preload across multiple bolts simultaneously. Safety-critical flanges.
-**How it works:** Hydraulic tools apply direct axial tension to the bolt, not torque. No friction variables. Multiple tools can work simultaneously for perfect load distribution.
-**Key products:**
-- **Boltight Standard Hydraulic Tensioners** — Wide range for different bolt sizes.
-- **Boltight Typhoon** — Compact design for better access.
-- **Hydraulic pumps** — Electric, air, hand pumps to drive the tensioners.
-- **Hoses and fittings** — Complete system.
-- **Application-specific kits** — Gas turbine casings (GE 6FA, 7FA, 7FB, 9E, 9FA, 9H), MHI turbines, MWM Deutz engines, wind turbines, Siemens wind.
-**Best for:** Industries: Oil & Gas (flanges, subsea), Power Generation (gas turbines), Wind (tower flange bolts), Offshore. Conditions: Maximum precision required, many bolts that need simultaneous tensioning, large diameter bolts, safety-critical pressure boundaries.
-
-### 4. EXPANDER SYSTEM — PIVOT PINS
-**What it solves:** Joint play, wear and fretting in pin joints of heavy construction and mining equipment.
-**How it works:** An expanding pin that locks into the bore, eliminating clearance and preventing wear/fretting.
-**Best for:** Industries: Construction equipment (excavators, cranes), Mining, Forestry. Application: Boom connections, pivots, hinge joints.
-
----
-## INDUSTRY APPLICATION GUIDE
-
-| Industry | Common Problem | Recommended Solutions |
-|---|---|---|
-| Oil & Gas | Flange leaks, vibration on pipework, subsea bolting | Boltight (precision), Nord-Lock washers (vibration), Superbolt (large flanges) |
-| Wind Energy | Tower flange bolts, main shaft, gearbox | Boltight (flange), Superbolt (shaft), Nord-Lock (vibration) |
-| Rail | Rolling stock vibration, rail fastening | Nord-Lock washers (X-Series for extreme vibration) |
-| Steel & Construction | Structural connections, oversized holes | Nord-Lock SP Washers |
-| Defense | Vibration, reliability, harsh conditions | Nord-Lock X-Series, Superbolt |
-| Power Generation | Gas turbine casings, large bolts | Boltight application-specific kits, Superbolt |
-| Mining | Heavy loads, large equipment, pin joints | Superbolt, Expander System, Nord-Lock |
-| Marine / Offshore | Corrosion, vibration, critical joints | Nord-Lock stainless/Inconel, Boltight |
-
----
-## SELECTION QUICK GUIDE
-
-**If the problem is vibration/loosening → Nord-Lock Washers**
-**If the problem is large bolt size, no torque tool access → Superbolt**
-**If the problem is precise preload, critical flange, many bolts → Boltight**
-**If the problem is pin joint wear, play → Expander System**
-**Vibration + precise preload → Superbolt LST or combination**
-`;
-
-// ─── API Key handling ─────────────────────────────────────────────────────────
-;
-
-
-
- else {
-    el.textContent = 'Not set';
-    el.className = 'api-status missing';
+var EXAMPLES = {
+  wind: {
+    industry: "Wind Energy",
+    boltSize: "M64-M72",
+    conditions: ["vibration", "corrosion", "heavyload", "safety", "maintenance"],
+    challenge: "An offshore wind farm operator in the North Sea is experiencing recurring bolt loosening on tower flange joints. The bolts are exposed to constant vibration from wind loading and wave action. Maintenance crews must re-tighten bolts every 3 months at significant cost, working 80 metres up on an offshore platform. The operator wants a permanent solution that eliminates re-tightening and is safe in a corrosive marine environment.",
+    current: "Standard hex nuts with spring washers, tightened with torque wrenches"
+  },
+  rail: {
+    industry: "Rail & Transportation",
+    boltSize: "M16-M24",
+    conditions: ["vibration", "safety"],
+    challenge: "A high-speed train manufacturer is experiencing progressive bolt loosening on wheel axle connections and bogie components. The constant vibration from track irregularities causes bolts to back off over time. This is a safety-critical application - a loose bolt could cause a derailment. The manufacturer needs a proven solution that holds under extreme vibration without frequent maintenance stops.",
+    current: "Standard bolts with Loctite thread adhesive - still losing preload after 30,000 km"
+  },
+  oil: {
+    industry: "Oil & Gas",
+    boltSize: "M48-M72",
+    conditions: ["precision", "safety", "corrosion", "heavyload"],
+    challenge: "An offshore oil platform operator needs to re-bolt a critical pipeline flange. The flange has 24 large bolts that must all reach the exact same clamping load - uneven loading causes gasket failure and leaks. Standard torque wrenches cannot achieve the required precision on bolts this large, and a leak would be catastrophic for safety and the environment. The operator needs a solution that guarantees accurate, even preload across all 24 bolts simultaneously.",
+    current: "Traditional torque wrenches - inconsistent results, two flange leaks in the last year"
+  },
+  mining: {
+    industry: "Mining & Heavy Equipment",
+    boltSize: "M30-M100",
+    conditions: ["heavyload", "maintenance"],
+    challenge: "A mining company large excavator has pin joints in the boom arm wearing out every 6 weeks, causing play and excessive vibration. Each replacement requires 2 days of downtime and costs 15,000 EUR in parts and labour. The joints operate under enormous loads in highly abrasive, dusty conditions. The company needs a solution that eliminates clearance in pin joints and dramatically extends service life.",
+    current: "Standard cylindrical pins - rapid wear causes joint play, fretting, and early failure"
   }
+};
+
+function fillExample(key) {
+  var ex = EXAMPLES[key];
+  if (!ex) return;
+  var industryEl = document.getElementById("industry");
+  for (var i = 0; i < industryEl.options.length; i++) {
+    if (industryEl.options[i].text === ex.industry) { industryEl.selectedIndex = i; break; }
+  }
+  document.getElementById("boltSize").value = ex.boltSize;
+  document.getElementById("challenge").value = ex.challenge;
+  document.getElementById("currentSolution").value = ex.current;
+  document.querySelectorAll(".checkbox-pill input").forEach(function(cb) {
+    cb.checked = ex.conditions.indexOf(cb.value) !== -1;
+  });
+  document.getElementById("formCard").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-// ─── Get recommendation ───────────────────────────────────────────────────────
-async function getRecommendation() {
-  const industry = document.getElementById('industry').value;
-  const boltSize = document.getElementById('boltSize').value.trim();
-  const challenge = document.getElementById('challenge').value.trim();
-  const currentSolution = document.getElementById('currentSolution').value.trim();
-  const errorBox = document.getElementById('errorBox');
+function getRecommendation() {
+  var industry = document.getElementById("industry").value;
+  var boltSize = document.getElementById("boltSize").value.trim();
+  var challenge = document.getElementById("challenge").value.trim();
+  var currentSolution = document.getElementById("currentSolution").value.trim();
+  var errorBox = document.getElementById("errorBox");
+  errorBox.className = "error-box";
 
-  errorBox.className = 'error-box';
-
-    if (!challenge) {
-    showError('Please describe the customer\'s challenge before requesting a recommendation.');
+  if (!challenge) {
+    errorBox.textContent = "Please describe the customer challenge before requesting a recommendation.";
+    errorBox.className = "error-box visible";
     return;
   }
 
-  // Get checked conditions
-  const conditions = [...document.querySelectorAll('.checkbox-pill input:checked')]
-    .map(cb => cb.value);
+  var conditions = [];
+  document.querySelectorAll(".checkbox-pill input:checked").forEach(function(cb) { conditions.push(cb.value); });
 
-  // Build user message
-  const userMsg = `
-CUSTOMER SCENARIO:
-- Industry: ${industry || 'Not specified'}
-- Bolt/Thread Size: ${boltSize || 'Not specified'}
-- Operating conditions: ${conditions.length ? conditions.join(', ') : 'Not specified'}
-- Current solution: ${currentSolution || 'None / not mentioned'}
+  var userMsg = "CUSTOMER SCENARIO:\n" +
+    "- Industry: " + (industry || "Not specified") + "\n" +
+    "- Bolt size: " + (boltSize || "Not specified") + "\n" +
+    "- Conditions: " + (conditions.length ? conditions.join(", ") : "Not specified") + "\n" +
+    "- Current solution: " + (currentSolution || "None mentioned") + "\n\n" +
+    "CUSTOMER CHALLENGE:\n" + challenge + "\n\nPlease provide a structured product recommendation.";
 
-CUSTOMER CHALLENGE:
-${challenge}
+  document.getElementById("submitBtn").disabled = true;
+  document.getElementById("loading").className = "loading visible";
+  document.getElementById("responseCard").className = "response-card";
 
-Please provide a structured product recommendation for this customer.
-`.trim();
+  var systemPrompt = "You are a senior technical sales advisor at Nord-Lock Group. Recommend the right product based on this knowledge:\n\n" + PRODUCT_KNOWLEDGE + "\n\nRespond in this exact format:\n\nRECOMMENDED_PRODUCTS: [names separated by |]\nHEADLINE: [one sentence why this is right]\nWHY_THIS_FITS:\n[2-3 paragraphs]\nKEY_BENEFITS:\n- benefit 1\n- benefit 2\n- benefit 3\nNEXT_STEPS:\n[one paragraph for the sales engineer]\n\nBe specific and reference the customer conditions.";
 
-  // UI: show loading
-  document.getElementById('submitBtn').disabled = true;
-  document.getElementById('loading').className = 'loading visible';
-  document.getElementById('responseCard').className = 'response-card';
-
-  try {
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'claude-opus-4-6',
-        max_tokens: 1200,
-        system: `You are a senior technical sales advisor at Nord-Lock Group, a global leader in bolting solutions. You help sales engineers recommend the right Nord-Lock Group product for customer applications.
-
-Use this product knowledge base to guide your recommendations:
-
-${PRODUCT_KNOWLEDGE}
-
-When responding, structure your answer as follows (use this exact format):
-
-RECOMMENDED_PRODUCTS: [List product names separated by |]
-HEADLINE: [One sentence summarising why this is the right choice]
-WHY_THIS_FITS:
-[2-3 paragraphs explaining why the recommended product(s) match the customer's situation, referencing their specific conditions]
-KEY_BENEFITS:
-- [Benefit 1 specific to their application]
-- [Benefit 2]
-- [Benefit 3]
-NEXT_STEPS:
-[One paragraph with concrete next steps for the sales engineer — e.g. what data to gather, what to offer the customer, whether to involve technical support]
-
-Be specific, technical, and confident. Reference the customer's actual conditions. Keep the total response focused and practical for a sales conversation.`,
-        messages: [{ role: 'user', content: userMsg }]
-      })
+  fetch("/api/chat", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-opus-4-6",
+      max_tokens: 1200,
+      system: systemPrompt,
+      messages: [{ role: "user", content: userMsg }]
+    })
+  })
+  .then(function(res) {
+    return res.json().then(function(data) {
+      if (!res.ok) throw new Error(data.error && data.error.message ? data.error.message : "API error " + res.status);
+      return data;
     });
-
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.error?.message || `API error ${res.status}`);
-    }
-
-    const data = await res.json();
-    const text = data.content[0].text;
-    renderResponse(text, industry);
-
-  } catch (err) {
-    showError('API error: ' + err.message);
-  } finally {
-    document.getElementById('submitBtn').disabled = false;
-    document.getElementById('loading').className = 'loading';
-  }
+  })
+  .then(function(data) {
+    renderResponse(data.content[0].text);
+  })
+  .catch(function(err) {
+    errorBox.textContent = "Error: " + err.message;
+    errorBox.className = "error-box visible";
+  })
+  .finally(function() {
+    document.getElementById("submitBtn").disabled = false;
+    document.getElementById("loading").className = "loading";
+  });
 }
 
-// ─── Render response ──────────────────────────────────────────────────────────
-function renderResponse(text, industry) {
-  const body = document.getElementById('responseBody');
+function renderResponse(text) {
+  var body = document.getElementById("responseBody");
 
-  // Parse structured response
-  const get = (key, multiline = false) => {
-    const pattern = multiline
-      ? new RegExp(`${key}:\\n([\\s\\S]*?)(?=\\n[A-Z_]+:|$)`)
-      : new RegExp(`${key}:\\s*(.+)`);
-    const m = text.match(pattern);
-    return m ? m[1].trim() : '';
-  };
+  function get(key, multi) {
+    var p = multi ? new RegExp(key + ":\\n([\\s\\S]*?)(?=\\n[A-Z_]+:|$)") : new RegExp(key + ":\\s*(.+)");
+    var m = text.match(p);
+    return m ? m[1].trim() : "";
+  }
 
-  const products = get('RECOMMENDED_PRODUCTS').split('|').map(s => s.trim()).filter(Boolean);
-  const headline = get('HEADLINE');
-  const whyFits = get('WHY_THIS_FITS', true);
-  const benefits = get('KEY_BENEFITS', true);
-  const nextSteps = get('NEXT_STEPS', true);
+  var products = get("RECOMMENDED_PRODUCTS").split("|").map(function(s){ return s.trim(); }).filter(Boolean);
+  var headline = get("HEADLINE");
+  var whyFits = get("WHY_THIS_FITS", true);
+  var benefits = get("KEY_BENEFITS", true);
+  var nextSteps = get("NEXT_STEPS", true);
 
-  // Build HTML
-  let html = '';
-
-  // Product badges
+  var html = "";
   if (products.length) {
-    html += `<div style="margin-bottom:1rem">`;
-    products.forEach(p => {
-      html += `<span class="product-badge">✓ ${p}</span>`;
-    });
-    html += `</div>`;
+    html += "<div style='margin-bottom:1rem'>";
+    products.forEach(function(p) { html += "<span class='product-badge'>&check; " + p + "</span>"; });
+    html += "</div>";
   }
-
-  // Headline
-  if (headline) {
-    html += `<h2>${headline}</h2>`;
-  }
-
-  // Why this fits
+  if (headline) html += "<h2>" + headline + "</h2>";
   if (whyFits) {
-    html += `<h3>Why this fits your customer's application</h3>`;
-    whyFits.split('\n\n').forEach(p => {
-      if (p.trim()) html += `<p>${p.trim()}</p>`;
-    });
+    html += "<h3>Why this fits your customer</h3>";
+    whyFits.split("\n\n").forEach(function(p) { if (p.trim()) html += "<p>" + p.trim() + "</p>"; });
   }
-
-  // Benefits
   if (benefits) {
-    html += `<h3>Key benefits for this application</h3><ul>`;
-    benefits.split('\n').forEach(line => {
-      const clean = line.replace(/^[-•*]\s*/, '').trim();
-      if (clean) html += `<li>${clean}</li>`;
+    html += "<h3>Key benefits</h3><ul>";
+    benefits.split("\n").forEach(function(line) {
+      var clean = line.replace(/^[-*]\s*/, "").trim();
+      if (clean) html += "<li>" + clean + "</li>";
     });
-    html += `</ul>`;
+    html += "</ul>";
   }
-
-  // Next steps
   if (nextSteps) {
-    html += `<div class="next-steps"><h4>Recommended next steps</h4><p>${nextSteps}</p></div>`;
+    html += "<div class='next-steps'><h4>Recommended next steps</h4><p>" + nextSteps + "</p></div>";
   }
-
-  // Fallback: raw text
   if (!headline && !whyFits) {
-    html = `<p style="white-space:pre-wrap; line-height:1.7; color:#333">${text}</p>`;
+    html = "<p style='white-space:pre-wrap;line-height:1.7;color:#333'>" + text + "</p>";
   }
 
   body.innerHTML = html;
-  document.getElementById('responseCard').className = 'response-card visible';
-  document.getElementById('responseCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-function showError(msg) {
-  const el = document.getElementById('errorBox');
-  el.textContent = msg;
-  el.className = 'error-box visible';
+  document.getElementById("responseCard").className = "response-card visible";
+  document.getElementById("responseCard").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 </script>
 
