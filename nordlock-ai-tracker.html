@@ -1029,3 +1029,102 @@ async function scopeExistingIdea(id) {
         system: `You are an AI adoption advisor at Nord-Lock Group (global leader in bolting and fastening solutions).
 Help teams scope internal AI initiative ideas. Be practical, honest, concise. The company is in early AI maturity.
 Respond with exactly 3 short sections:
+1. FEASIBILITY (1-2 sentences: is this realistic? what's needed?)
+2. SUGGESTED FIRST STEP (1 concrete action to test the idea in 2-4 weeks)
+3. RISKS OR CONSIDERATIONS (1-2 brief points)
+Keep it to 150 words max. Be direct and useful.`,
+        messages: [{ role: 'user', content: `Initiative: ${item.title}\nDepartment: ${item.dept || 'Not specified'}\nProblem: ${item.desc}\nExpected outcome: ${item.outcome || 'Not specified'}\nData items:\n${dataLines}` }]
+      })
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      const msg = data.error?.message || `API error ${res.status}`;
+      outputEl.style.color = '#dc2626';
+      outputEl.style.background = '#fff5f5';
+      outputEl.textContent = '⚠ ' + msg;
+      return;
+    }
+    const text = data.content?.[0]?.text || 'No response.';
+    outputEl.style.color = '#374151';
+    outputEl.style.background = 'transparent';
+    outputEl.textContent = text;
+    const initiative = byId(id);
+    if (initiative) { initiative.aiScope = text; save(); }
+  } catch(e) {
+    outputEl.style.color = '#dc2626';
+    outputEl.style.background = '#fff5f5';
+    outputEl.textContent = '⚠ Network error: ' + e.message;
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function showScopeError(msg) {
+  const el = document.getElementById('aiOutput');
+  if (el) {
+    el.style.color = '#dc2626';
+    el.style.background = '#fff5f5';
+    el.textContent = '⚠ ' + msg;
+  }
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function closeModal(id) {
+  document.getElementById(id).className = 'modal-overlay';
+}
+
+function closeNewModalSafe() {
+  const hasContent = document.getElementById('new-title').value.trim()
+                  || document.getElementById('new-desc').value.trim();
+  if (hasContent && !confirm('Close the form? Your unsaved entries will be lost.')) return;
+  closeModal('newModal');
+}
+
+function onDetailStatusChange(val) {
+  const approverSection = document.getElementById('d-approver-section');
+  if (!approverSection) return;
+  if (val === 'approved') {
+    approverSection.style.display = '';
+  } else {
+    const existing = document.getElementById('d-approved-by')?.value?.trim();
+    if (!existing) approverSection.style.display = 'none';
+  }
+}
+
+function saveDetailChanges() {
+  const item = byId(currentDetailId);
+  if (!item) return;
+  const newStatus = document.getElementById('d-status').value;
+  const approvedBy = document.getElementById('d-approved-by')?.value?.trim() || '';
+
+  if (newStatus === 'approved' && !approvedBy) {
+    alert('Please enter the name of the approver before moving to Approved status.');
+    document.getElementById('d-approved-by')?.focus();
+    return;
+  }
+
+  item.title = document.getElementById('d-title').value.trim() || item.title;
+  item.dept  = document.getElementById('d-dept').value.trim()  || item.dept;
+  item.owner = document.getElementById('d-owner').value.trim();
+  item.desc  = document.getElementById('d-desc').value.trim();
+  item.outcome = document.getElementById('d-outcome').value.trim();
+  item.status  = newStatus;
+  item.value   = document.getElementById('d-value').value;
+  item.approvedBy = approvedBy;
+
+  save();
+  render();
+  closeModal('detailModal');
+}
+</script>
+</body>
+</html>
