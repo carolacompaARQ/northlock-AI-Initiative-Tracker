@@ -1,0 +1,11 @@
+{
+  "name": "northlock-ai-initiative-tracker",
+  "version": "1.0.0",
+  "description": "Nord-Lock Group AI Initiative Tracker and Sales Assistant",
+  "scripts": {
+    "lint": "echo 'No linting configured for static HTML project'"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

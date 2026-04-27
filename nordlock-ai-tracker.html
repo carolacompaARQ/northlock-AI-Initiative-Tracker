@@ -1029,3 +1029,44 @@ async function scopeExistingIdea(id) {
         system: `You are an AI adoption advisor at Nord-Lock Group (global leader in bolting and fastening solutions).
 Help teams scope internal AI initiative ideas. Be practical, honest, concise. The company is in early AI maturity.
 Respond with exactly 3 short sections:
+
+1. Quick Implementation Note (max 70 words)
+2. Value & Risks (max 70 words)
+3. Data & Infrastructure Requirements (max 70 words)`,
+        messages: [
+          {
+            role: 'user',
+            content: `Initiative: ${item.title}
+Department: ${item.dept || 'Not specified'}
+Description: ${item.desc || 'Not specified'}
+
+Data/Infrastructure available:
+${dataLines}
+
+Provide practical scoping advice in exactly 3 concise sections as described.`
+          }
+        ]
+      })
+    });
+
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error || 'Request failed');
+    const text = json.content?.[0]?.text || 'No response from AI.';
+    outputEl.textContent = text;
+  } catch (err) {
+    outputEl.textContent = `Error: ${err.message}`;
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// Fire
+renderBoard();
+</script>
+
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
