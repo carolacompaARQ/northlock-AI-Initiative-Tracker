@@ -679,7 +679,7 @@ window.addEventListener('load', () => { render(); });
 
 function getKey() { return null; /* key handled server-side */ }
 
-// ─── Render Board ─────────────────────────────────────────────────────────────
+// ─── Render Board ─────────────��───────────────────────────────────────────────
 function render() {
   renderStats();
   renderBoard();
@@ -1126,5 +1126,9 @@ function saveDetailChanges() {
   closeModal('detailModal');
 }
 </script>
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
