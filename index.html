@@ -3,234 +3,939 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Carola Compá — AI Projects</title>
+<title>Carola Compá — AI Adoption Lead</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f9f9f8;
+    --bg-section: #f2f2f0;
+    --bg-card: #ffffff;
+    --border: #e2e2de;
+    --text: #1a1a18;
+    --text-muted: #6b6b65;
+    --text-faint: #9e9e98;
+    --accent: #1e40af;
+    --accent-light: #3b5bdb;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #13161f;
-    color: #c8d4e0;
-    min-height: 100vh;
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 2rem;
   }
 
   /* ── Nav ── */
   nav {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.5rem 2.5rem;
-    border-bottom: 1px solid #1e2535;
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 100;
   }
-  .nav-brand { display: flex; align-items: center; gap: 12px; }
-  .cc-mark {
-    width: 36px; height: 36px; background: #4f6ef7;
-    border-radius: 8px; display: flex; align-items: center; justify-content: center;
-    font-weight: 900; color: white; font-size: 13px; letter-spacing: -0.5px;
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
   }
-  .nav-name { color: white; font-weight: 700; font-size: 1rem; }
-  .nav-title { color: #5a6a82; font-size: 0.8rem; }
-  .nav-contact {
-    color: #8899aa; font-size: 0.82rem; text-decoration: none;
-    border: 1px solid #2e3650; border-radius: 20px; padding: 5px 14px;
-    transition: border-color 0.2s, color 0.2s;
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2rem; align-items: center; }
+  .nav-links a {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.15s;
   }
-  .nav-contact:hover { border-color: #4f6ef7; color: #a0b0ff; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    font-size: 0.82rem !important;
+    color: var(--accent) !important;
+    font-weight: 500 !important;
+  }
 
-  /* ── Hero ── */
-  .hero {
-    max-width: 760px; margin: 5rem auto 4rem;
-    padding: 0 2rem; text-align: center;
+  /* ── Profile / Hero ── */
+  .profile {
+    padding: 5rem 0 4rem;
+    border-bottom: 1px solid var(--border);
   }
-  .hero h1 {
-    color: white; font-size: 2rem; font-weight: 800;
-    line-height: 1.2; margin-bottom: 1rem;
+  .profile-label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
   }
-  .hero h1 span { color: #4f6ef7; }
-  .hero p {
-    color: #7a8fa8; font-size: 1rem; line-height: 1.7; max-width: 520px; margin: 0 auto;
+  .profile h1 {
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+  }
+  .profile h1 .tagline {
+    color: var(--accent);
+    display: block;
+  }
+  .profile-desc {
+    margin-top: 1.75rem;
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 560px;
+    line-height: 1.75;
+  }
+  .profile-meta {
+    display: flex;
+    gap: 3rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .meta-item {}
+  .meta-label {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.3rem;
+  }
+  .meta-value {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+  .meta-value .arrow { color: var(--accent); margin: 0 0.2rem; }
+
+  /* ── Section base ── */
+  .section {
+    border-bottom: 1px solid var(--border);
+  }
+  .section-header {
+    padding: 2rem 0;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    cursor: pointer;
+    user-select: none;
+  }
+  .section-header:hover .section-title { color: var(--accent); }
+  .section-left { display: flex; align-items: baseline; gap: 1.25rem; }
+  .section-num {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-faint);
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    transition: color 0.15s;
+  }
+  .section-toggle {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    flex-shrink: 0;
+    transition: color 0.15s;
+  }
+  .section-header:hover .section-toggle { color: var(--accent); }
+
+  .section-summary {
+    font-size: 0.95rem;
+    color: var(--accent-light);
+    max-width: 520px;
+    line-height: 1.65;
+    padding-bottom: 2rem;
+    font-style: italic;
+  }
+
+  .section-body {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    opacity: 0;
+  }
+  .section-body.open {
+    max-height: 2000px;
+    opacity: 1;
+  }
+  .section-body-inner {
+    padding-bottom: 2.5rem;
+  }
+
+  /* ── Core section (always open) ── */
+  .section-core {
+    background: var(--bg-section);
+    border-radius: 0;
+  }
+  .section-core .container { }
+  .core-badge {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+
+  .principles-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .principle-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.75rem;
+  }
+  .principle-num {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+  }
+  .principle-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+  .principle-card p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+  .principle-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .principle-list li {
+    font-size: 0.84rem;
+    color: var(--accent);
+    padding-left: 1.1rem;
+    position: relative;
+    line-height: 1.5;
+  }
+  .principle-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  /* ── Maturity Model ── */
+  .maturity-track {
+    display: flex;
+    gap: 0;
+    margin-top: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .maturity-level {
+    flex: 1;
+    padding: 1.25rem 1rem;
+    border-right: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.2s, flex 0.35s ease;
+    position: relative;
+    overflow: hidden;
+    min-width: 0;
+  }
+  .maturity-level:last-child { border-right: none; }
+  .maturity-level:hover, .maturity-level.active {
+    background: var(--bg-section);
+    flex: 2;
+  }
+  .maturity-level.target {
+    background: #eff3ff;
+    border-left: 3px solid var(--accent);
+  }
+  .level-num {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+  .level-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+  .level-desc {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+  }
+  .maturity-level:hover .level-desc,
+  .maturity-level.active .level-desc {
+    max-height: 100px;
+    opacity: 1;
+  }
+  .level-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    margin-bottom: 0.75rem;
+    transition: background 0.2s;
+  }
+  .maturity-level:hover .level-dot,
+  .maturity-level.active .level-dot { background: var(--accent); }
+  .maturity-level.target .level-dot { background: var(--accent); }
+
+  .maturity-note {
+    margin-top: 1rem;
+    font-size: 0.82rem;
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  /* ── What I do ── */
+  .what-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 1.5rem;
+  }
+  .what-item {
+    background: var(--bg-card);
+    padding: 1.5rem;
+  }
+  .what-num {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+  .what-item h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+  .what-item p {
+    font-size: 0.83rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ── Problem sections ── */
+  .text-block { margin-top: 1.5rem; }
+  .text-block p {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+    margin-bottom: 0.75rem;
+  }
+  .bullet-list {
+    list-style: none;
+    margin-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .bullet-list li {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    padding-left: 1.1rem;
+    position: relative;
+    line-height: 1.6;
+  }
+  .bullet-list li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--text-faint);
+  }
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 1.5rem;
+  }
+  .col-block h4 {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.6rem;
   }
 
   /* ── Projects ── */
-  .projects-section {
-    max-width: 900px; margin: 0 auto 6rem;
-    padding: 0 2rem;
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
   }
-  .section-label {
-    font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 1px; color: #4a5a72;
-    margin-bottom: 1.5rem; display: flex; align-items: center; gap: 12px;
-  }
-  .section-label::after {
-    content: ''; flex: 1; height: 1px; background: #1e2535;
-  }
-
-  /* ── Project card ── */
   .project-card {
-    background: #1a1f2e;
-    border: 1px solid #252c40;
-    border-radius: 14px;
-    padding: 2rem;
-    margin-bottom: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .project-card:hover {
-    border-color: #3a4a6a;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+  .project-card:hover { border-color: var(--accent); box-shadow: 0 4px 20px rgba(30,64,175,0.08); }
+  .project-card-top {
+    padding: 1.5rem;
+    background: var(--bg-card);
+  }
+  .project-tag {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.6rem;
+  }
+  .project-card h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .project-card p {
+    font-size: 0.83rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  .project-detail {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, opacity 0.3s ease;
+    opacity: 0;
+  }
+  .project-card:hover .project-detail,
+  .project-card.active .project-detail {
+    max-height: 300px;
+    opacity: 1;
+  }
+  .project-detail ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 1rem;
+  }
+  .project-detail li {
+    font-size: 0.81rem;
+    color: var(--text-muted);
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.5;
+  }
+  .project-detail li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    padding: 0.5rem 0;
+    border-top: 1px solid var(--border);
+    width: 100%;
+    transition: gap 0.15s;
+  }
+  .project-link:hover { gap: 0.6rem; }
+  .project-card-footer {
+    background: var(--bg-section);
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .project-status {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: #15803d;
+    letter-spacing: 0.06em;
+  }
+  .project-status::before { content: '● '; }
+
+  /* ── Strengths ── */
+  .strengths-list {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .strength-item {
+    padding: 1.1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--bg-card);
+  }
+  .strength-item:last-child { border-bottom: none; }
+  .strength-item::before {
+    content: '';
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
   }
 
-  .project-top {
-    display: flex; align-items: flex-start;
-    justify-content: space-between; gap: 1rem;
-    margin-bottom: 1rem;
+  /* ── Contact ── */
+  .contact-block {
+    padding: 3rem 0 4rem;
+    text-align: center;
+  }
+  .contact-block p {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    font-style: italic;
+  }
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
     flex-wrap: wrap;
   }
-  .project-icon-wrap { display: flex; align-items: center; gap: 14px; }
-  .project-icon {
-    width: 44px; height: 44px; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.25rem; flex-shrink: 0;
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text);
+    text-decoration: none;
+    background: var(--bg-card);
+    transition: border-color 0.15s, color 0.15s;
   }
-  .icon-nl { background: #1a2a4a; }
-  .project-name { color: white; font-size: 1.1rem; font-weight: 700; }
-  .project-org { color: #5a6a82; font-size: 0.8rem; margin-top: 2px; }
-
-  .project-badge {
-    font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.6px; padding: 4px 10px; border-radius: 20px;
-    white-space: nowrap;
-  }
-  .badge-live { background: #0d2a1a; color: #4ade80; border: 1px solid #166534; }
-  .badge-soon { background: #1a1f2e; color: #4a5568; border: 1px solid #2e3650; }
-
-  .project-desc {
-    color: #7a8fa8; font-size: 0.88rem; line-height: 1.7;
-    margin-bottom: 1.5rem; max-width: 600px;
-  }
-
-  /* ── Tool sub-links ── */
-  .tool-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-  .tool-link {
-    display: flex; align-items: center; gap: 8px;
-    background: #242a3a; border: 1px solid #2e3650;
-    border-radius: 8px; padding: 0.65rem 1rem;
-    text-decoration: none; color: #c8d4e0;
-    font-size: 0.82rem; font-weight: 600;
-    transition: border-color 0.15s, background 0.15s;
-  }
-  .tool-link:hover { border-color: #4f6ef7; background: #1e2840; color: white; }
-  .tool-link-icon {
-    width: 24px; height: 24px; border-radius: 5px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.85rem;
-  }
-  .tl-sales { background: #1a3a6a; }
-  .tl-tracker { background: #2a1a5a; }
-  .tool-link-arrow { color: #4f6ef7; margin-left: 4px; }
-
-  /* ── Coming soon card ── */
-  .coming-soon {
-    background: repeating-linear-gradient(
-      -45deg,
-      #13161f,
-      #13161f 10px,
-      #161922 10px,
-      #161922 20px
-    );
-    border: 1px dashed #252c40;
-    border-radius: 14px;
-    padding: 2rem;
-    display: flex; align-items: center; justify-content: center;
-    min-height: 100px; color: #3a4a5a;
-    font-size: 0.85rem; font-weight: 600;
-    letter-spacing: 0.3px;
-  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); }
 
   /* ── Footer ── */
   footer {
-    border-top: 1px solid #1e2535;
-    padding: 2rem 2.5rem;
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 1rem;
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
   }
-  .footer-left { color: #3a4a5a; font-size: 0.78rem; }
-  .footer-links { display: flex; gap: 1.25rem; }
-  .footer-links a {
-    color: #4a5a72; font-size: 0.78rem; text-decoration: none;
-    transition: color 0.15s;
+  .footer-note {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--text-faint);
   }
-  .footer-links a:hover { color: #a0b0ff; }
 
-  @media (max-width: 580px) {
-    .hero h1 { font-size: 1.5rem; }
-    nav { padding: 1.25rem 1.25rem; }
-    .projects-section { padding: 0 1.25rem; }
-    .hero { padding: 0 1.25rem; margin: 3rem auto 3rem; }
-    .project-top { flex-direction: column; }
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .principles-grid, .what-grid, .projects-grid, .two-col { grid-template-columns: 1fr; }
+    .profile h1 { font-size: 2rem; }
+    .maturity-track { flex-direction: column; }
+    .maturity-level { border-right: none; border-bottom: 1px solid var(--border); }
+    .maturity-level:last-child { border-bottom: none; }
+    nav { padding: 1rem 1.25rem; }
+    .nav-links { gap: 1rem; }
   }
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-brand">
-    <div class="cc-mark">CC</div>
-    <div>
-      <div class="nav-name">Carola Compá</div>
-      <div class="nav-title">AI Projects</div>
-    </div>
+  <div class="nav-logo"><span>CC</span> / carolacompa.dev</div>
+  <div class="nav-links">
+    <a href="#what-i-do">What I do</a>
+    <a href="#maturity">Model</a>
+    <a href="#work">Work</a>
+    <a href="#contact" class="nav-cta">Get in touch →</a>
   </div>
-  <a class="nav-contact" href="mailto:carolacompa@gmail.com">Get in touch</a>
 </nav>
 
-<div class="hero">
-  <h1>AI Prototypes for <span>Real Business Value</span></h1>
-  <p>I build working AI prototypes to explore how artificial intelligence can solve real business problems — from governance and adoption to sales and operations.</p>
+<!-- ── Profile ── -->
+<div class="container">
+  <section class="profile">
+    <div class="profile-label">// profile</div>
+    <h1>
+      Carola Compá.
+      <span class="tagline">Turning AI experimentation<br>into real workflow impact.</span>
+    </h1>
+    <p class="profile-desc">
+      I help organizations move from fragmented AI experimentation to structured, value-driven adoption.<br>
+      I work across business, technology, and teams to turn AI into workflows people trust and use.
+    </p>
+    <div class="profile-meta">
+      <div class="meta-item">
+        <div class="meta-label">Based in</div>
+        <div class="meta-value">Gothenburg, Sweden · remote-friendly</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Scope</div>
+        <div class="meta-value">Strategy <span class="arrow">→</span> enablement <span class="arrow">→</span> governance</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Background</div>
+        <div class="meta-value">16+ years · software, SaaS, AI/ML, deep tech</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Contact</div>
+        <div class="meta-value"><a href="mailto:carolacompa@gmail.com" style="color:var(--accent);text-decoration:none;">carolacompa@gmail.com</a></div>
+      </div>
+    </div>
+  </section>
 </div>
 
-<div class="projects-section">
-
-  <div class="section-label">Projects</div>
-
-  <!-- Nord-Lock Project Card -->
-  <div class="project-card">
-    <div class="project-top">
-      <div class="project-icon-wrap">
-        <div class="project-icon icon-nl">🔩</div>
-        <div>
-          <div class="project-name">Nord-Lock Group AI Prototypes</div>
-          <div class="project-org">Industrial / Bolting Solutions · April 2026</div>
+<!-- ── Core (always open) ── -->
+<section class="section section-core">
+  <div class="container">
+    <div class="section-header" style="cursor:default;">
+      <div class="section-left">
+        <span class="section-num">00 / CORE</span>
+        <h2 class="section-title">How I work</h2>
+      </div>
+      <span class="core-badge">CORE</span>
+    </div>
+    <p class="section-summary">AI adoption is a translation and trust challenge.</p>
+    <div class="section-body-inner">
+      <div class="principles-grid">
+        <div class="principle-card">
+          <div class="principle-num">Principle 01</div>
+          <h3>Translation across levels</h3>
+          <ul class="principle-list">
+            <li>Business → AI use cases</li>
+            <li>AI → understandable concepts</li>
+            <li>Workflows → implementation</li>
+          </ul>
+        </div>
+        <div class="principle-card">
+          <div class="principle-num">Principle 02</div>
+          <h3>Adoption through trust</h3>
+          <ul class="principle-list">
+            <li>Safe experimentation</li>
+            <li>User involvement</li>
+            <li>Ownership</li>
+            <li>Real usage</li>
+          </ul>
         </div>
       </div>
-      <span class="project-badge badge-live">● Live</span>
-    </div>
-    <p class="project-desc">
-      Two working AI tools built to demonstrate how AI can support Nord-Lock's sales team and internal AI adoption programme — from customer-facing product recommendations to organisation-wide initiative governance.
-    </p>
-    <div class="tool-links">
-      <a class="tool-link" href="nordlock-sales-assistant.html">
-        <div class="tool-link-icon tl-sales">🔩</div>
-        Bolting Solutions Advisor
-        <span class="tool-link-arrow">→</span>
-      </a>
-      <a class="tool-link" href="nordlock-ai-tracker.html">
-        <div class="tool-link-icon tl-tracker">✦</div>
-        AI Initiative Tracker
-        <span class="tool-link-arrow">→</span>
-      </a>
     </div>
   </div>
+</section>
 
-  <!-- Placeholder -->
-  <div class="coming-soon">More projects coming soon</div>
+<!-- ── AI Maturity Model ── -->
+<div class="container">
+  <section class="section" id="maturity">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-left">
+        <span class="section-num">01 / MODEL</span>
+        <h2 class="section-title">AI maturity model</h2>
+      </div>
+      <span class="section-toggle">[ + ]</span>
+    </div>
+    <p class="section-summary">The five-level lens I use to diagnose where an organisation actually stands — and where the next honest step is.</p>
+    <div class="section-body">
+      <div class="section-body-inner">
+        <div class="maturity-track">
+          <div class="maturity-level">
+            <div class="level-dot"></div>
+            <div class="level-num">Level 0</div>
+            <div class="level-name">Pre-adoption</div>
+            <div class="level-desc">Unstructured or no AI usage. No shared practices, no visibility.</div>
+          </div>
+          <div class="maturity-level">
+            <div class="level-dot"></div>
+            <div class="level-num">Level 1</div>
+            <div class="level-name">Individual experimentation</div>
+            <div class="level-desc">Isolated usage without coordination. Some use AI, others don't. No link to business value.</div>
+          </div>
+          <div class="maturity-level">
+            <div class="level-dot"></div>
+            <div class="level-num">Level 2</div>
+            <div class="level-name">Isolated use cases</div>
+            <div class="level-desc">Teams experiment without alignment. No shared practices or guidance across the organisation.</div>
+          </div>
+          <div class="maturity-level target">
+            <div class="level-dot"></div>
+            <div class="level-num">Level 3</div>
+            <div class="level-name">Coordinated adoption</div>
+            <div class="level-desc">Structured initiatives and shared visibility. Priorities aligned. AI initiatives tracked from idea to value.</div>
+          </div>
+          <div class="maturity-level target">
+            <div class="level-dot"></div>
+            <div class="level-num">Level 4</div>
+            <div class="level-name">AI-enabled workflows</div>
+            <div class="level-desc">AI embedded into daily operations. People trust it, use it, and sustain it without being pushed.</div>
+          </div>
+        </div>
+        <p class="maturity-note">I help organisations move from Levels 1–2 to Levels 3–4.</p>
+      </div>
+    </div>
+  </section>
 
+  <!-- ── What I Do ── -->
+  <section class="section" id="what-i-do">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-left">
+        <span class="section-num">02 / PRACTICE</span>
+        <h2 class="section-title">What I do</h2>
+      </div>
+      <span class="section-toggle">[ + ]</span>
+    </div>
+    <p class="section-summary">I work across four areas to move AI into real use.</p>
+    <div class="section-body">
+      <div class="section-body-inner">
+        <div class="what-grid">
+          <div class="what-item">
+            <div class="what-num">01 /</div>
+            <h4>Identify use cases</h4>
+            <p>Find where AI creates real business value.</p>
+          </div>
+          <div class="what-item">
+            <div class="what-num">02 /</div>
+            <h4>Build solutions</h4>
+            <p>Turn ideas into working prototypes and tools.</p>
+          </div>
+          <div class="what-item">
+            <div class="what-num">03 /</div>
+            <h4>Design workflows</h4>
+            <p>Integrate AI into daily work and team processes.</p>
+          </div>
+          <div class="what-item">
+            <div class="what-num">04 /</div>
+            <h4>Create structure</h4>
+            <p>Track initiatives, align priorities, and support scaling.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Context ── -->
+  <section class="section">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-left">
+        <span class="section-num">03 / CONTEXT</span>
+        <h2 class="section-title">The context</h2>
+      </div>
+      <span class="section-toggle">[ + ]</span>
+    </div>
+    <p class="section-summary">Organizations are moving from digital work to AI-augmented work. This is not a tooling shift. It is a change in how work is done.</p>
+    <div class="section-body">
+      <div class="section-body-inner">
+        <div class="two-col">
+          <div class="col-block">
+            <h4>What "0 AI" really means</h4>
+            <p>Many companies believe they use AI because employees use chatbots. In practice, this is still a pre-adoption stage.</p>
+            <ul class="bullet-list">
+              <li>No shared practices</li>
+              <li>No visibility</li>
+              <li>No connection to business value</li>
+            </ul>
+            <p style="margin-top:0.75rem;">AI usage remains fragmented and does not scale.</p>
+          </div>
+          <div class="col-block">
+            <h4>Why AI adoption fails</h4>
+            <p>AI does not fail because of technology. It fails because of people, process, and data.</p>
+            <ul class="bullet-list">
+              <li>Lack of trust</li>
+              <li>Inconsistent usage</li>
+              <li>FOMO-driven initiatives</li>
+              <li>Data constraints</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Selected Work ── -->
+  <section class="section" id="work">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-left">
+        <span class="section-num">04 / WORK</span>
+        <h2 class="section-title">Selected work</h2>
+      </div>
+      <span class="section-toggle">[ + ]</span>
+    </div>
+    <p class="section-summary">Practical examples of AI embedded in workflows and structured for adoption.</p>
+    <div class="section-body">
+      <div class="section-body-inner">
+        <div class="projects-grid">
+          <div class="project-card">
+            <div class="project-card-top">
+              <div class="project-tag">AI governance &amp; coordination</div>
+              <h4>AI Initiative Tracker</h4>
+              <p>A governance tool for capturing AI ideas, tracking progress, assessing readiness, and connecting experiments to measurable business value.</p>
+              <div class="project-detail">
+                <ul>
+                  <li>Capture and prioritise AI initiatives across the organisation</li>
+                  <li>Track progress from idea to value with structured visibility</li>
+                  <li>Assess feasibility and data readiness before scaling</li>
+                  <li>Create shared oversight for decision-making</li>
+                </ul>
+                <a href="nordlock-ai-tracker.html" class="project-link">Open prototype →</a>
+              </div>
+            </div>
+            <div class="project-card-footer">
+              <span class="project-status">Live prototype</span>
+              <span style="font-family:var(--mono);font-size:0.62rem;color:var(--text-faint);">Nord-Lock Group · Industrial</span>
+            </div>
+          </div>
+          <div class="project-card">
+            <div class="project-card-top">
+              <div class="project-tag">AI embedded in daily work</div>
+              <h4>AI Sales Assistant</h4>
+              <p>AI embedded in daily work — translating customer needs into product recommendations using internal knowledge as its base.</p>
+              <div class="project-detail">
+                <ul>
+                  <li>Translate customer needs into product recommendations</li>
+                  <li>Use internal knowledge as a base</li>
+                  <li>Provide consistent and explainable outputs</li>
+                </ul>
+                <a href="nordlock-sales-assistant.html" class="project-link">Open prototype →</a>
+              </div>
+            </div>
+            <div class="project-card-footer">
+              <span class="project-status">Live prototype</span>
+              <span style="font-family:var(--mono);font-size:0.62rem;color:var(--text-faint);">Nord-Lock Group · Industrial</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Strengths ── -->
+  <section class="section">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-left">
+        <span class="section-num">05 / STRENGTHS</span>
+        <h2 class="section-title">Selected strengths</h2>
+      </div>
+      <span class="section-toggle">[ + ]</span>
+    </div>
+    <p class="section-summary">What I bring that is hard to find in one person.</p>
+    <div class="section-body">
+      <div class="section-body-inner">
+        <div class="strengths-list">
+          <div class="strength-item">Business to AI translation</div>
+          <div class="strength-item">Workflow design</div>
+          <div class="strength-item">Adoption and change</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How I work ── -->
+  <section class="section">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-left">
+        <span class="section-num">06 / APPROACH</span>
+        <h2 class="section-title">How I approach it</h2>
+      </div>
+      <span class="section-toggle">[ + ]</span>
+    </div>
+    <p class="section-summary">AI adoption is about changing how work happens.</p>
+    <div class="section-body">
+      <div class="section-body-inner">
+        <div class="what-grid">
+          <div class="what-item">
+            <div class="what-num">01 /</div>
+            <h4>Business-first</h4>
+            <p>Start from real business needs.</p>
+          </div>
+          <div class="what-item">
+            <div class="what-num">02 /</div>
+            <h4>Iterative</h4>
+            <p>Test, learn, adapt — from idea to implementation.</p>
+          </div>
+          <div class="what-item">
+            <div class="what-num">03 /</div>
+            <h4>People-centered</h4>
+            <p>Change management and adoption are core, not an afterthought.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact ── -->
+  <section class="section" id="contact">
+    <div class="contact-block">
+      <p>Happy to walk through the prototypes or discuss your AI priorities.</p>
+      <div class="contact-links">
+        <a href="https://linkedin.com/in/carolacompa" target="_blank" class="contact-link">LinkedIn →</a>
+        <a href="mailto:carolacompa@gmail.com" class="contact-link">Email →</a>
+      </div>
+    </div>
+  </section>
 </div>
 
 <footer>
-  <div class="footer-left">carolacompa.dev · Built with Claude API</div>
-  <div class="footer-links">
-    <a href="mailto:carolacompa@gmail.com">Email</a>
-    <a href="https://linkedin.com/in/carolacompa" target="_blank">LinkedIn</a>
-  </div>
+  <span class="footer-note">carolacompa.dev · Built with Claude API</span>
+  <span class="footer-note">AI Adoption Lead</span>
 </footer>
 
+<script>
+  function toggleSection(header) {
+    const body = header.nextElementSibling.nextElementSibling;
+    const toggle = header.querySelector('.section-toggle');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    toggle.textContent = isOpen ? '[ + ]' : '[ – ]';
+  }
+</script>
 </body>
 </html>
