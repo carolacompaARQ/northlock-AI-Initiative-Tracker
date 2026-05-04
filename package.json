@@ -1,0 +1,12 @@
+{
+  "name": "northlock-ai-initiative-tracker",
+  "version": "1.0.0",
+  "description": "Nord-Lock Group AI Prototypes - Initiative Tracker and Sales Assistant",
+  "private": true,
+  "scripts": {
+    "build": "echo 'Static HTML site - no build required'"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.1.1"
+  }
+}
